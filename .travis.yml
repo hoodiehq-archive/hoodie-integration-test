@@ -3,7 +3,7 @@ node_js:
  - "0.10"
 install: true
 env:
- - COUCH_ADMIN_PASS=asd
+ - HOODIE_ADMIN_PASS=asd
 before_script:
  - npm install -g hoodie-cli
  - hoodie new myapp

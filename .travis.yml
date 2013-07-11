@@ -5,6 +5,7 @@ install: true
 before_script:
  - npm install -g hoodie-cli
  - hoodie new myapp
+ - npm install --save git://github.com/hoodiehq/hoodie-server.git#travis
  - cd myapp
  - hoodie start &
  - sleep 10

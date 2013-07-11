@@ -6,3 +6,5 @@ before_script:
  - hoodie new myapp
  - cd myapp
  - hoodie start
+script:
+ - echo yay

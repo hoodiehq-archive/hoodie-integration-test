@@ -2,12 +2,11 @@ language: node_js
 node_js:
  - "0.10"
 install: true
-env:
- - HOODIE_ADMIN_PASS=asd
 before_script:
  - npm install -g hoodie-cli
  - hoodie new myapp
  - cd myapp
- - hoodie start
+ - hoodie start &
+ - sleep 10
 script:
  - echo yay

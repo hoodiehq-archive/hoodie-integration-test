@@ -1,6 +1,7 @@
 language: node_js
 node_js:
  - "0.10"
+install: true
 before_script:
  - npm install -g hoodie-cli
  - hoodie new myapp

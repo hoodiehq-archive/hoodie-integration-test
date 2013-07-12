@@ -14,7 +14,6 @@ notifications:
       - "irc.freenode.net#hoodie"
     use_notice: true
     skip_join: true
-install: true
 before_install:
   - npm install -g grunt-cli
   - git clone git://github.com/n1k0/casperjs.git ~/casperjs
@@ -23,7 +22,6 @@ before_install:
   - export PATH=$PATH:`pwd`/bin
   - cd -
   - npm install -g hoodie-cli
-  - npm install
 before_script:
   - phantomjs --version
   - casperjs --version

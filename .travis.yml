@@ -10,8 +10,10 @@ notifications:
     - caolan@thehoodiefirm.com
     - me@svenlito.com
   irc:
-    - "irc.freenode.net#hoodie"
-
+    channels:
+      - "irc.freenode.net#hoodie"
+    use_notice: true
+    skip_join: true
 install: true
 before_script:
  - npm install -g hoodie-cli

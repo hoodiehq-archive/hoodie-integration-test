@@ -15,12 +15,20 @@ notifications:
     use_notice: true
     skip_join: true
 install: true
+before_install:
+  - npm install -g grunt-cli
+  - git clone git://github.com/n1k0/casperjs.git ~/casperjs
+  - cd ~/casperjs
+  - git checkout tags/1.0.2
+  - export PATH=$PATH:`pwd`/bin
+  - cd -
+  - npm install -g hoodie-cli
 before_script:
- - npm install -g grunt-cli
- - npm install -g hoodie-cli
- - hoodie new myapp
- - cd myapp
- - npm install --save git://github.com/hoodiehq/hoodie-server.git#travis
- - hoodie start &
- - sleep 10
- - cd ..
+  - phantomjs --version
+  - casperjs --version
+  - hoodie new myapp
+  - cd myapp
+  - npm install --save git://github.com/hoodiehq/hoodie-server.git#travis
+  - hoodie start &
+  - sleep 10
+  - cd ..

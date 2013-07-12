@@ -1,6 +1,17 @@
 language: node_js
 node_js:
  - "0.10"
+notifications:
+ email:
+  recipients:
+    - jan@thehoodiefirm.com
+    - gregor@thehoodiefirm.com
+    - alex@thehoodiefirm.com
+    - caolan@thehoodiefirm.com
+    - me@svenlito.com
+  irc:
+    - "irc.freenode.net#hoodie"
+
 install: true
 before_script:
  - npm install -g hoodie-cli

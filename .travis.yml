@@ -9,5 +9,6 @@ before_script:
  - npm install --save git://github.com/hoodiehq/hoodie-server.git#travis
  - hoodie start &
  - sleep 10
+ - cd ..
 script:
  - ./test.sh

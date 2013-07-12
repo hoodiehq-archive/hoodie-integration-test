@@ -1,2 +1,2 @@
-casper.test.comment('post');
+casper.test.comment('All Good! :)');
 casper.test.done();

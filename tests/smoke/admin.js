@@ -2,7 +2,7 @@
 
 'use strict';
 
-var ADMIN_URL  = 'http://127.0.0.1:6005/';
+var ADMIN_URL  = 'http://127.0.0.1:6002/';
 
 casper.test.comment('check hosts');
 

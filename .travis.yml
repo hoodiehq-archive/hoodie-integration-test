@@ -11,7 +11,7 @@ notifications:
     - me@svenlito.com
   irc:
     channels:
-      - "irc.freenode.net#hoodie"
+      - "chat.freenode.net#hoodie"
     use_notice: true
     skip_join: true
 before_install:

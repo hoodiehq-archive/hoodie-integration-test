@@ -10,4 +10,4 @@ before_script:
  - hoodie start &
  - sleep 10
 script:
- - echo yay
+ - ./test.sh

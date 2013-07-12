@@ -1,0 +1,11 @@
+{
+  "name": "hoodie-integration-test",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-ghost": "~1.0.12"
+  },
+  "scripts": {
+    "test": "grunt --verbose"
+  }
+}

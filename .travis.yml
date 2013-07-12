@@ -16,6 +16,7 @@ notifications:
     skip_join: true
 install: true
 before_script:
+ - npm install -g grunt-cli
  - npm install -g hoodie-cli
  - hoodie new myapp
  - cd myapp
@@ -23,5 +24,3 @@ before_script:
  - hoodie start &
  - sleep 10
  - cd ..
-script:
- - ./test.sh

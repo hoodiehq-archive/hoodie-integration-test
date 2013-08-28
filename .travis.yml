@@ -12,7 +12,6 @@ notifications:
   irc:
     channels:
       - "chat.freenode.net#hoodie"
-    use_notice: true
     skip_join: true
 before_install:
   - npm install -g grunt-cli

@@ -14,6 +14,11 @@ casper.start(API_URL, function(resp) {
   this.test.assert(this.getCurrentUrl() === API_URL);
 });
 
+casper.thenOpen(API_URL + '_api', function (resp) {
+  this.test.info('Current location is ' + this.getCurrentUrl());
+  this.test.assert(resp.status === 200);
+});
+
 casper.run(function() {
   this.test.done();
 });

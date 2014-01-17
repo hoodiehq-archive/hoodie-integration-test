@@ -14,6 +14,11 @@ casper.start(ADMIN_URL, function(resp) {
   this.test.assert(this.getCurrentUrl() === ADMIN_URL);
 });
 
+casper.thenOpen(ADMIN_URL + '_api', function (resp) {
+  this.test.info('Current location is ' + this.getCurrentUrl());
+  this.test.assert(resp.status === 200);
+});
+
 casper.run(function() {
   this.test.done();
 });

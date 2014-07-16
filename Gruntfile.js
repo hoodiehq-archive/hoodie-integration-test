@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   'use strict';
 
   // load npm tasks
-  grunt.loadNpmTasks('grunt-casper');
+  require('load-grunt-tasks')(grunt);
 
   // Project configuration.
   grunt.initConfig({
@@ -17,10 +17,28 @@ module.exports = function(grunt) {
 
         }
       }
+    },
+
+    hoodie: {
+      start: {
+        options: {
+          cwd: 'myapp'
+        }
+      },
+      stop: {}
+    },
+
+    shell: {
+      'createApp': {
+        command: [
+          'rm -rf myapp',
+          './node_modules/hoodie-cli/bin/hoodie new myapp',
+        ].join('&&')
+      }
     }
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['casper']);
+  grunt.registerTask('default', ['shell:createApp', 'hoodie:start', 'casper', 'hoodie:stop']);
 
 };

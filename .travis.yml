@@ -8,13 +8,7 @@ notifications:
     - 'chat.freenode.net#hoodie'
     skip_join: true
 before_install:
-- npm install -g grunt-cli
-- git clone git://github.com/n1k0/casperjs.git ~/casperjs
-- cd ~/casperjs
-- git checkout tags/1.0.2
-- export PATH=$PATH:`pwd`/bin
-- cd -
-- npm install -g hoodie-cli
+- npm install -g grunt-cli hoodie-cli
 before_script:
 - phantomjs --version
 - casperjs --version

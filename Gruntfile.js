@@ -1,32 +1,26 @@
-'use strict';
-
 module.exports = function(grunt) {
+  'use strict';
 
   // load npm tasks
-  grunt.loadNpmTasks('grunt-ghost');
+  grunt.loadNpmTasks('grunt-casper');
 
   // Project configuration.
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    ghost: {
+    casper: {
       dist: {
-        filesSrc: [
-          'tests/smoke/*.js'
-        ],
+        src: ['tests/smoke/*.js'],
         options: {
-          direct: true,
-          logLevel: 'info',
+          test: true,
           pre: ['tests/pre-test.js'],
           post: ['tests/post-test.js'],
-          printCommand: true,
-          printFilePaths: true
+          'log-level': 'info',
+
         }
       }
     }
-
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['ghost']);
+  grunt.registerTask('default', ['casper']);
 
 };

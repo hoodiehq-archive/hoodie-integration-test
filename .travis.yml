@@ -8,12 +8,4 @@ notifications:
     - 'chat.freenode.net#hoodie'
     skip_join: true
 before_install:
-- npm install -g grunt-cli hoodie-cli
-before_script:
-- phantomjs --version
-- casperjs --version
-- hoodie new myapp
-- cd myapp
-- hoodie start &
-- sleep 10
-- cd -
+- npm install -g grunt-cli

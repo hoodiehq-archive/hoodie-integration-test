@@ -4,6 +4,9 @@ module.exports = function(grunt) {
   // load npm tasks
   require('load-grunt-tasks')(grunt);
 
+  var env = process.env;
+  env.HOODIE_SETUP_PASSWORD = '12345';
+
   // Project configuration.
   grunt.initConfig({
     casper: {
@@ -22,7 +25,10 @@ module.exports = function(grunt) {
     hoodie: {
       start: {
         options: {
-          cwd: 'myapp'
+          childProcessOptions: {
+            cwd: process.cwd() + '/myapp',
+            env: env
+          }
         }
       },
       stop: {}
@@ -31,6 +37,7 @@ module.exports = function(grunt) {
     shell: {
       'createApp': {
         command: [
+          './node_modules/hoodie-cli/bin/hoodie cache clean',
           'rm -rf myapp',
           './node_modules/hoodie-cli/bin/hoodie new myapp',
         ].join('&&')

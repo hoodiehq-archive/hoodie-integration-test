@@ -12,5 +12,6 @@
   },
   "scripts": {
     "test": "grunt --verbose"
-  }
+  },
+  "main": "index.js"
 }

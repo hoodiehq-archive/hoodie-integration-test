@@ -28,7 +28,8 @@ module.exports = function(grunt) {
           childProcessOptions: {
             cwd: process.cwd() + '/myapp',
             env: env
-          }
+          },
+          'custom-ports': '6001,6002,6003'
         }
       },
       stop: {}

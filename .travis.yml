@@ -7,7 +7,20 @@ notifications:
   email: false
   irc:
     channels:
-    - 'chat.freenode.net#hoodie'
+    - chat.freenode.net#hoodie
     skip_join: true
 before_install:
 - npm install -g grunt-cli
+after_success:
+- grunt ghrelease
+env:
+  global:
+    secure: SeAPwwIfoo25n/Dfi8nD5LAZIL5JF5NDHK+QWkSzgY9g5rDXiuN+UX97ZNve80ELD9YD+/qBAGaAugebVy4ugk3XlfDZgmUCNpoLNuQF11JAR2NggrBCJhnIb9YJRbS7jDZpS9thuGUIyWcqwWaWSwuavbeB5wCuVQ87lk7+ZdE=
+deploy:
+  provider: npm
+  email: stephan@thehoodiefirm.com
+  api_key:
+    secure: jzyuKi/FCKviFFgYbQo3dt90e6ByLVzniKCyeu86Q+yOvYreON5LJ7tYtSZOUJqqQ5XRQgV3PKRGT7ldJyEY00xWw600vtPIBxMVJMezwLg+W0ikMHgVNriJbMjTI0P1lTnR1deeErYWrcpU3/SIVKA467SFx125M7rs2tfuH0M=
+  on:
+    all_branches: true
+    tags: true

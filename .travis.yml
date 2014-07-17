@@ -1,31 +1,13 @@
 language: node_js
 node_js:
- - "0.10"
+- '0.10'
+services:
+- couchdb
 notifications:
-  email:
-    recipients:
-      - jan@thehoodiefirm.com
-      - gregor@thehoodiefirm.com
-      - alex@thehoodiefirm.com
-      - caolan@thehoodiefirm.com
-      - me@svenlito.com
+  email: false
   irc:
     channels:
-      - "chat.freenode.net#hoodie"
+    - 'chat.freenode.net#hoodie'
     skip_join: true
 before_install:
-  - npm install -g grunt-cli
-  - git clone git://github.com/n1k0/casperjs.git ~/casperjs
-  - cd ~/casperjs
-  - git checkout tags/1.0.2
-  - export PATH=$PATH:`pwd`/bin
-  - cd -
-  - npm install -g hoodie-cli
-before_script:
-  - phantomjs --version
-  - casperjs --version
-  - hoodie new myapp
-  - cd myapp
-  - hoodie start &
-  - sleep 10
-  - cd -
+- npm install -g grunt-cli

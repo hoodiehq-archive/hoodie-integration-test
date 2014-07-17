@@ -1,32 +1,51 @@
-'use strict';
-
 module.exports = function(grunt) {
+  'use strict';
 
   // load npm tasks
-  grunt.loadNpmTasks('grunt-ghost');
+  require('load-grunt-tasks')(grunt);
+
+  var env = process.env;
+  env.HOODIE_SETUP_PASSWORD = '12345';
 
   // Project configuration.
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    ghost: {
+    casper: {
       dist: {
-        filesSrc: [
-          'tests/smoke/*.js'
-        ],
+        src: ['tests/smoke/*.js'],
         options: {
-          direct: true,
-          logLevel: 'info',
+          test: true,
           pre: ['tests/pre-test.js'],
           post: ['tests/post-test.js'],
-          printCommand: true,
-          printFilePaths: true
+          'log-level': 'info',
+
         }
       }
-    }
+    },
 
+    hoodie: {
+      start: {
+        options: {
+          childProcessOptions: {
+            cwd: process.cwd() + '/myapp',
+            env: env
+          }
+        }
+      },
+      stop: {}
+    },
+
+    shell: {
+      'createApp': {
+        command: [
+          './node_modules/hoodie-cli/bin/hoodie cache clean',
+          'rm -rf myapp',
+          './node_modules/hoodie-cli/bin/hoodie new myapp',
+        ].join('&&')
+      }
+    }
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['ghost']);
+  grunt.registerTask('default', ['shell:createApp', 'hoodie:start', 'casper', 'hoodie:stop']);
 
 };

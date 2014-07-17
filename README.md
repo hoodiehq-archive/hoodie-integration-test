@@ -14,3 +14,8 @@ require('hoodie-integration-test')();
 ```
 
 That's all (:
+
+Should you be prompted to enter credentials like so `Please enter your CouchDB _admin credentials:` kill all running CouchDB processes.
+```bash
+ps ax | grep couch | awk '{print $1}' | xargs kill
+``` 

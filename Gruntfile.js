@@ -37,9 +37,9 @@ module.exports = function(grunt) {
     shell: {
       'createApp': {
         command: [
-          './node_modules/hoodie-cli/bin/hoodie cache clean',
+          './node_modules/.bin/hoodie cache clean',
           'rm -rf myapp',
-          './node_modules/hoodie-cli/bin/hoodie new myapp',
+          './node_modules/.bin/hoodie new myapp',
         ].join('&&')
       }
     },

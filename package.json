@@ -11,7 +11,7 @@
     "load-grunt-tasks": "^0.6.0"
   },
   "scripts": {
-    "test": "grunt --verbose"
+    "test": "node -e \"require('./index.js')()\""
   },
   "main": "index.js"
 }

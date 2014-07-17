@@ -42,6 +42,16 @@ module.exports = function(grunt) {
           './node_modules/hoodie-cli/bin/hoodie new myapp',
         ].join('&&')
       }
+    },
+
+    release: {
+      options: {
+        bump: {
+          files: ['package.json'],
+          commitFiles: ['package.json', 'CHANGELOG.md']
+        },
+        tasks: ['changelog']
+      }
     }
   });
 

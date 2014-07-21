@@ -1,3 +1,12 @@
+<a name="0.0.4"></a>
+### 0.0.4 (2014-07-21)
+
+
+#### Bug Fixes
+
+* **createApp:** remove cache clean as it is deprecated ((3b5ec295))
+
+
 <a name="0.0.3"></a>
 ### 0.0.3 (2014-07-17)
 

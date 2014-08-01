@@ -49,8 +49,7 @@ module.exports = function(grunt) {
         bump: {
           files: ['package.json'],
           commitFiles: ['package.json', 'CHANGELOG.md']
-        },
-        tasks: ['changelog']
+        }
       }
     }
   });

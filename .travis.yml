@@ -11,8 +11,10 @@ notifications:
     skip_join: true
 before_install:
 - npm install -g grunt-cli
-after_success:
-- grunt ghrelease
+before_deploy:
+- grunt before-deploy
+after_deploy:
+- grunt after-deploy
 env:
   global:
     secure: SeAPwwIfoo25n/Dfi8nD5LAZIL5JF5NDHK+QWkSzgY9g5rDXiuN+UX97ZNve80ELD9YD+/qBAGaAugebVy4ugk3XlfDZgmUCNpoLNuQF11JAR2NggrBCJhnIb9YJRbS7jDZpS9thuGUIyWcqwWaWSwuavbeB5wCuVQ87lk7+ZdE=

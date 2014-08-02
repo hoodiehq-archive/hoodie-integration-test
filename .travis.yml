@@ -17,7 +17,7 @@ after_deploy:
 - grunt after-deploy
 env:
   global:
-    secure: SeAPwwIfoo25n/Dfi8nD5LAZIL5JF5NDHK+QWkSzgY9g5rDXiuN+UX97ZNve80ELD9YD+/qBAGaAugebVy4ugk3XlfDZgmUCNpoLNuQF11JAR2NggrBCJhnIb9YJRbS7jDZpS9thuGUIyWcqwWaWSwuavbeB5wCuVQ87lk7+ZdE=
+  - secure: Z8QEPjDeekJRdiAEQA+ARDRRrS8egpzS1WFu68+KQWcDuFg1FeVGYO1A2HyPHggfA/8L+NUfAv0YQi/VvJ6C/zTlO5BhqurumVOtV4U08s3mLmbRSBwkE9kPXLHWJrIoMGdTG93I/SrzL6h4qUTRNSjkfz6F2VcfpcwH9TuR84Q=
 deploy:
   provider: npm
   email: stephan@thehoodiefirm.com

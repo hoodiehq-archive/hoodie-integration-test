@@ -12,6 +12,22 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    watch: {
+      dev: {
+        files: ['tests/**/*'],
+        tasks: [
+          'shell:kill',
+          'rm-data',
+          'hoodie:start',
+          'casper',
+          'hoodie:stop',
+        ]
+      },
+      gruntfile: {
+        files: ['Gruntfile.js']
+      }
+    },
+
     casper: {
       dist: {
         src: ['tests/spec/*.spec.js'],
@@ -79,11 +95,11 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('rm-app', function() {
-    shell.rm('rf', 'myapp');
+    shell.rm('-rf', 'myapp');
   });
 
   grunt.registerTask('rm-data', function() {
-    shell.rm('rf', 'myapp/data');
+    shell.rm('-rf', 'myapp/data');
   });
 
   // Default task(s).
@@ -95,11 +111,10 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('dev', [
+    'rm-app',
     'shell:kill',
-    'rm-data',
-    'hoodie:start',
-    'casper',
-    'hoodie:stop'
+    'test',
+    'watch'
   ]);
 
   grunt.registerTask('default', ['rm-app', 'test']);

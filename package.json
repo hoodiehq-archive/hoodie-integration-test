@@ -14,5 +14,8 @@
   "scripts": {
     "test": "grunt test --verbose"
   },
-  "main": "index.js"
+  "main": "index.js",
+  "devDependencies": {
+    "grunt-contrib-watch": "^0.6.1"
+  }
 }

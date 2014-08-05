@@ -27,5 +27,3 @@ Object.keys(hosts).forEach(function(hostname) {
   });
 
 });
-
-

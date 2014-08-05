@@ -107,23 +107,31 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', function() {
     var module = this.args.join('');
+    var tasksPre = ['shell:createApp'];
+    var tasksPost = ['hoodie:start', 'casper', 'hoodie:stop'];
 
-    grunt.registerTask('npmLink', function() {
-      var done = this.async();
-      depPath(appname, module, function(depPath) {
-        shell.exec('npm link ' + module, {
-          cwd: path.join(appname, depPath)
-        }, done);
-      });
-    });
-
-    var tasks = ['shell:createApp'];
-
-    if (module) {
-      tasks.push('npmLink');
+    if (!module) {
+      return grunt.task.run(tasksPre.concat(tasksPost));
     }
 
-    grunt.task.run(tasks.concat(['hoodie:start', 'casper', 'hoodie:stop']));
+    var done = this.async();
+
+    depPath(appname, module, function(depPath) {
+      if (!depPath) {
+        grunt.log.warn('Dependencies do not contain the module ' + module);
+        return done();
+      }
+
+      grunt.registerTask('npmLink', function() {
+        shell.exec('npm link ' + module, {
+          cwd: path.join(appname, depPath)
+        }, this.async());
+      });
+
+      tasksPre.push('npmLink');
+      grunt.task.run(tasksPre.concat(tasksPost));
+      done();
+    });
   });
 
   grunt.registerTask('default', ['rm-app', 'test']);

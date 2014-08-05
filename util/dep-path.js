@@ -5,7 +5,9 @@ var NM = 'node_modules';
 
 var exports = module.exports = function(cwd, module, callback) {
   exports.getNpmList(cwd, function(list) {
-    exports.handleDependencies(module, '', list.dependencies, callback);
+    if (!exports.handleDependencies(module, './', list.dependencies, callback)) {
+      callback(null);
+    }
   });
 };
 
@@ -25,19 +27,26 @@ exports.getNpmList = function(cwd, callback) {
 };
 
 exports.handleDependencies = function(module, depPath, deps, callback) {
-  Object.keys(deps).forEach(function(name) {
+  // This will only find the first occurance of the module
+  // which is entirely cool for hoodie's usecase
+  /*jshint forin: false */
+  for (var name in deps) {
     var dep = deps[name];
     if (name === module) {
-      return callback(depPath);
+      callback(depPath);
+      return true;
     }
     if (dep.dependencies) {
-      return exports.handleDependencies(
+      if (exports.handleDependencies(
         module,
         path.join(depPath, NM, name),
         dep.dependencies,
         callback
-      );
+      )) {
+        return true;
+      }
     }
-  });
+  }
+  return false;
 };
 

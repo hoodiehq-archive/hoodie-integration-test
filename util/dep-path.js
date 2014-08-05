@@ -10,14 +10,19 @@ var exports = module.exports = function(cwd, module, callback) {
 };
 
 exports.getNpmList = function(cwd, callback) {
+  console.log('fail?');
+  console.log(path.resolve(cwd));
   exec('npm ls --json', {
     cwd: path.resolve(cwd) || process.cwd()
-  },function(err, stdout, stderr) {
-    if (err) {
-      console.log(stderr);
-      throw err;
+  }, function(err, stdout) {
+    try {
+      callback(JSON.parse(stdout));
+    } catch (_e) {
+      if (err) {
+        throw err;
+      }
+      throw _e;
     }
-    callback(JSON.parse(stdout));
   });
 };
 

@@ -1,4 +1,8 @@
+var path = require('path');
+
 var shell = require('shelljs');
+
+var depPath = require('./util/dep-path');
 
 module.exports = function(grunt) {
   'use strict';
@@ -9,6 +13,7 @@ module.exports = function(grunt) {
   var env = process.env;
   env.HOODIE_SETUP_PASSWORD = '12345';
   var ports = require('./ports');
+  var appname = 'myapp';
 
   // Project configuration.
   grunt.initConfig({
@@ -71,7 +76,7 @@ module.exports = function(grunt) {
 
     shell: {
       createApp: {
-        command: './node_modules/.bin/hoodie new myapp'
+        command: './node_modules/.bin/hoodie new ' + appname
       }
     },
 
@@ -94,18 +99,32 @@ module.exports = function(grunt) {
   });
 
   // Default task(s).
-  grunt.registerTask('test', [
-    'shell:createApp',
-    'hoodie:start',
-    'casper',
-    'hoodie:stop'
-  ]);
-
   grunt.registerTask('dev', [
     'rm-app',
     'test',
     'watch'
   ]);
+
+  grunt.registerTask('test', function() {
+    var module = this.args.join('');
+
+    grunt.registerTask('npmLink', function() {
+      var done = this.async();
+      depPath(appname, module, function(depPath) {
+        shell.exec('npm link ' + module, {
+          cwd: path.join(appname, depPath)
+        }, done);
+      });
+    });
+
+    var tasks = ['shell:createApp'];
+
+    if (module) {
+      tasks.push('npmLink');
+    }
+
+    grunt.task.run(tasks.concat(['hoodie:start', 'casper', 'hoodie:stop']));
+  });
 
   grunt.registerTask('default', ['rm-app', 'test']);
 };

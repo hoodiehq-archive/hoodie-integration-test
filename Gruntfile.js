@@ -16,7 +16,6 @@ module.exports = function(grunt) {
       dev: {
         files: ['tests/**/*'],
         tasks: [
-          'shell:kill',
           'rm-data',
           'hoodie:start',
           'casper',
@@ -73,15 +72,7 @@ module.exports = function(grunt) {
     shell: {
       createApp: {
         command: './node_modules/.bin/hoodie new myapp'
-      },
-      kill: {
-        command: ''+
-          'ps ax | grep hoodie | awk \'{print $1}\' | xargs kill &&' +
-          'ps ax | grep couch | awk \'{print $1}\' | xargs kill',
-        options: {
-          failOnError: false
-        }
-      },
+      }
     },
 
     release: {
@@ -112,7 +103,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev', [
     'rm-app',
-    'shell:kill',
     'test',
     'watch'
   ]);

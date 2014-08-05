@@ -1,3 +1,5 @@
+var shell = require('shelljs');
+
 module.exports = function(grunt) {
   'use strict';
 
@@ -53,12 +55,6 @@ module.exports = function(grunt) {
     },
 
     shell: {
-      rmApp: {
-        command: 'rm -rf myapp'
-      },
-      rmData: {
-        command: 'rm -rf myapp/data'
-      },
       createApp: {
         command: './node_modules/.bin/hoodie new myapp'
       },
@@ -82,9 +78,30 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerTask('rm-app', function() {
+    shell.rm('rf', 'myapp');
+  });
+
+  grunt.registerTask('rm-data', function() {
+    shell.rm('rf', 'myapp/data');
+  });
+
   // Default task(s).
-  grunt.registerTask('test', ['shell:createApp', 'hoodie:start', 'casper', 'hoodie:stop']);
-  grunt.registerTask('dev', ['shell:kill', 'hoodie:start', 'casper', 'hoodie:stop']);
-  grunt.registerTask('default', ['shell:rmApp', 'test']);
+  grunt.registerTask('test', [
+    'shell:createApp',
+    'hoodie:start',
+    'casper',
+    'hoodie:stop'
+  ]);
+
+  grunt.registerTask('dev', [
+    'shell:kill',
+    'rm-data',
+    'hoodie:start',
+    'casper',
+    'hoodie:stop'
+  ]);
+
+  grunt.registerTask('default', ['rm-app', 'test']);
 };
 

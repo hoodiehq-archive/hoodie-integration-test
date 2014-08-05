@@ -8,7 +8,8 @@
     "grunt-release-hoodie": "^2.0.1",
     "grunt-shell": "^0.7.0",
     "hoodie-cli": "latest",
-    "load-grunt-tasks": "^0.6.0"
+    "load-grunt-tasks": "^0.6.0",
+    "shelljs": "^0.3.0"
   },
   "scripts": {
     "test": "grunt test --verbose"

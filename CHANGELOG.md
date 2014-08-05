@@ -1,3 +1,12 @@
+<a name="0.1.2"></a>
+### 0.1.2 (2014-08-05)
+
+
+#### Bug Fixes
+
+* **test:** do not test if module is not in dependency list ((193d8a9e))
+
+
 <a name="0.1.1"></a>
 ### 0.1.1 (2014-08-05)
 

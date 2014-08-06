@@ -1,3 +1,12 @@
+<a name="0.1.3"></a>
+### 0.1.3 (2014-08-06)
+
+
+#### Bug Fixes
+
+* **test:** app needs to be created before npm can list deps ((70717de1))
+
+
 <a name="0.1.2"></a>
 ### 0.1.2 (2014-08-05)
 

@@ -114,24 +114,23 @@ module.exports = function(grunt) {
       return grunt.task.run(tasksPre.concat(tasksPost));
     }
 
-    var done = this.async();
+    grunt.registerTask('deep-link', function() {
+      var done = this.async();
+      depPath(appname, module, function(depPath) {
+        if (!depPath) {
+          grunt.log.warn('Dependencies do not contain the module ' + module);
+          return done();
+        }
 
-    depPath(appname, module, function(depPath) {
-      if (!depPath) {
-        grunt.log.warn('Dependencies do not contain the module ' + module);
-        return done();
-      }
-
-      grunt.registerTask('npmLink', function() {
         shell.exec('npm link ' + module, {
           cwd: path.join(appname, depPath)
-        }, this.async());
+        });
+        grunt.task.run(tasksPost);
+        done();
       });
-
-      tasksPre.push('npmLink');
-      grunt.task.run(tasksPre.concat(tasksPost));
-      done();
     });
+
+    grunt.task.run(tasksPre.concat(['deep-link']));
   });
 
   grunt.registerTask('default', ['rm-app', 'test']);

@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         tasks: [
           'rm-data',
           'hoodie:start',
-          'casper',
+          'casper:watch',
           'hoodie:stop',
         ]
       },
@@ -33,14 +33,20 @@ module.exports = function(grunt) {
     },
 
     casper: {
+      options: {
+        test: true,
+        pre: ['tests/pre-test.js'],
+        post: ['tests/post-test.js'],
+        'log-level': 'info',
+      },
       dist: {
+        src: ['tests/spec/*.spec.js']
+      },
+      watch: {
         src: ['tests/spec/*.spec.js'],
         options: {
-          test: true,
-          pre: ['tests/pre-test.js'],
-          post: ['tests/post-test.js'],
-          'log-level': 'info',
-
+          'fail-fast': true,
+          concise: true
         }
       }
     },
@@ -108,7 +114,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', function() {
     var module = this.args.join('');
     var tasksPre = ['shell:createApp'];
-    var tasksPost = ['hoodie:start', 'casper', 'hoodie:stop'];
+    var tasksPost = ['hoodie:start', 'casper:dist', 'hoodie:stop'];
 
     if (!module) {
       return grunt.task.run(tasksPre.concat(tasksPost));

@@ -19,3 +19,9 @@ Should you be prompted to enter credentials like so `Please enter your CouchDB _
 ```bash
 ps ax | grep couch | awk '{print $1}' | xargs kill
 ``` 
+
+## Local setup
+
+```bash
+grunt dev # creates a hoodie app for local debugging
+```

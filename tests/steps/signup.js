@@ -9,6 +9,9 @@ module.exports = function(test, options) {
     function fail() {
       test.assertExists('.hoodie-account-signedout .btn.btn-small.btn-primary:nth-child(1)');
     });
+
+
+  casper.waitForSelector('.modal.in');
   casper.waitForSelector('form input[name=\'username\']',
     function success() {
       test.assertExists('form input[name=\'username\']');
@@ -33,7 +36,7 @@ module.exports = function(test, options) {
     });
   casper.waitForSelector('input[name=\'password_confirmation\']',
     function success() {
-      this.sendKeys('input[name=\'password_confirmation\']', 'hoodiepass');
+      this.sendKeys('input[name=\'password_confirmation\']', options.password);
     },
     function fail() {
       test.assertExists('input[name=\'password_confirmation\']');

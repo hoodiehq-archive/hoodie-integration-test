@@ -1,5 +1,6 @@
 /*global casper:false */
 
+casper.options.viewportSize = {width: 1024, height: 768};
 casper.test.comment('pre');
 casper.on('remote.message', function(message) {
   console.log(message);

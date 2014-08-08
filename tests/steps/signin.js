@@ -43,12 +43,11 @@ module.exports = function(test, options) {
   function fail() {
     test.assertExists('input[name=\'password\']');
   });
-  casper.wait(1000);
+  casper.waitForSelector('.modal.in');
   casper.waitForSelector('form .modal-footer .btn.btn-primary',
   function success() {
     test.assertExists('form .modal-footer .btn.btn-primary');
     this.click('form .modal-footer .btn.btn-primary');
-    casper.capture('./debug/signin-03-wtf.png');
   },
   function fail() {
     test.assertExists('form .modal-footer .btn.btn-primary');

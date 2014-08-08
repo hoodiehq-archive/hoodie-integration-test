@@ -10,7 +10,7 @@ Object.keys(hosts).forEach(function(hostname) {
   var host = hosts[hostname];
 
   casper.start(host, function(resp) {
-
+    this.test.info('host ' + host);
     this.test.info('Current location is ' + this.getCurrentUrl());
 
     this.test.assert(resp.status === 200);

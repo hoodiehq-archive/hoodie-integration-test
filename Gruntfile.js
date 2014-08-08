@@ -107,7 +107,7 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('dev', [
     'rm-app',
-    'test',
+    'shell:createApp',
     'watch'
   ]);
 

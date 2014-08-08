@@ -13,13 +13,13 @@ Object.keys(hosts).forEach(function(hostname) {
     this.test.info('host ' + host);
     this.test.info('Current location is ' + this.getCurrentUrl());
 
-    this.test.assert(resp.status === 200);
-    this.test.assert(this.getCurrentUrl() === host);
+    this.test.assertEqual(resp.status, 200);
+    this.test.assertEqual(this.getCurrentUrl(), host);
   });
 
   casper.thenOpen(host + '_api', function (resp) {
     this.test.info('Current location is ' + this.getCurrentUrl());
-    this.test.assert(resp.status === 200);
+    this.test.assertEqual(resp.status, 200);
   });
 
   casper.run(function() {

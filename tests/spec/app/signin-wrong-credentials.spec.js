@@ -1,10 +1,10 @@
 /*global casper:false */
-var hosts = require('../hosts.json');
+var hosts = require('../../hosts.json');
 
 casper.test.begin('SignIn with wrong credentials test', function(test) {
   casper.start(hosts.www);
 
-  require('../steps/signin')(test, {
+  require('../../steps/app/signin')(test, {
     username: 'foo',
     password: 'bar'
   });

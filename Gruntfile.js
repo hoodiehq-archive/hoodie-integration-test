@@ -40,10 +40,10 @@ module.exports = function(grunt) {
         'log-level': 'info',
       },
       dist: {
-        src: ['tests/spec/*.spec.js']
+        src: ['tests/spec/**/*.spec.js']
       },
       watch: {
-        src: ['tests/spec/*.spec.js'],
+        src: ['tests/spec/**/*.spec.js'],
         options: {
           'fail-fast': true,
           concise: true
@@ -88,7 +88,10 @@ module.exports = function(grunt) {
 
     replace: {
       injectBindShimIntoApp: {
-        src: [appname + '/www/index.html'],
+        src: [
+          appname + '/www/index.html',
+          appname + '/node_modules/hoodie-server/node_modules/hoodie-admin-dashboard/www/index.html'
+        ],
         overwrite: true,                 // overwrite matched source files
         replacements: [{
           from: '</head>',

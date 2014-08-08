@@ -9,4 +9,3 @@ casper.on('page.error', function(message, trace) {
   console.log(trace);
 });
 casper.test.done();
-

@@ -86,6 +86,17 @@ module.exports = function(grunt) {
       }
     },
 
+    replace: {
+      injectBindShimIntoApp: {
+        src: [appname + '/www/index.html'],
+        overwrite: true,                 // overwrite matched source files
+        replacements: [{
+          from: '</head>',
+          to: '<script>if(!Function.prototype.bind){Function.prototype.bind=function(e){if(typeof this!=="function"){throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable")}var t=Array.prototype.slice.call(arguments,1),n=this,r=function(){},i=function(){return n.apply(this instanceof r&&e?this:e,t.concat(Array.prototype.slice.call(arguments)))};r.prototype=this.prototype;i.prototype=new r;return i}}</script></head>'
+        }]
+      }
+    },
+
     release: {
       options: {
         bump: {
@@ -108,6 +119,7 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', [
     'rm-app',
     'shell:createApp',
+    'replace:injectBindShimIntoApp',
     'watch'
   ]);
 

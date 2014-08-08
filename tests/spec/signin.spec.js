@@ -5,7 +5,6 @@ casper.test.begin('SignIn test', function(test) {
   casper.start(hosts.www, function() {
     casper.viewport(1024, 768);
   });
-
   casper.then(function() {
     casper.capture('./debug/signin-01-pre.png');
   });

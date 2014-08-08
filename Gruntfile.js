@@ -125,7 +125,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', function() {
     var module = this.args.join('');
-    var tasksPre = ['shell:createApp'];
+    var tasksPre = ['shell:createApp', 'replace:injectBindShimIntoApp'];
     var tasksPost = ['hoodie:start', 'casper:dist', 'hoodie:stop'];
 
     if (!module) {

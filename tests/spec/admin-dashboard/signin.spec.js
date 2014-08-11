@@ -13,17 +13,37 @@ casper.test.begin('SignIn to Admin Dashboard', function(test) {
   //
   // Next step would be to look trough the templates of the admin dashboard
   // app and look for tags that don't get closed.
+  casper.thenEvaluate(function() {
+    document.body.innerHTML = document.body.innerHTML;
+  });
 
   casper.waitUntilVisible('[data-component="login"]');
 
   casper.thenClick('input[name=password]');
   casper.then(function() {
-    this.sendKeys('input[name=password]', '12345');
+    this.sendKeys('input[name=password]', 'funkyfresh');
+  });
+  casper.then(function() {
+    this.capture('debug/admin.png');
   });
   casper.thenClick('button[type=submit]');
 
-  casper.waitUntilVisible('[data-component="content"]');
+  casper.waitWhileVisible('[data-component="login"]');
+  casper.thenEvaluate(function() {
+    document.body.innerHTML = document.body.innerHTML;
+  });
+
+  casper.waitUntilVisible('[data-component="content"]', function() {}, function() {
+    this.capture('debug/admin-2.png');
+    this.evaluate(function() {
+      console.log(document.body.innerHTML);
+    });
+  });
   casper.then(function() {
-    this.assertVisible('[data-component="content"]');
+    test.assertVisible('[data-component="content"]');
+  });
+
+  casper.then(function() {
+    test.done();
   });
 });

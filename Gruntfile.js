@@ -37,6 +37,7 @@ module.exports = function(grunt) {
         test: true,
         pre: ['tests/pre-test.js'],
         post: ['tests/post-test.js'],
+        engine: 'slimerjs',
         'log-level': 'info',
       },
       dist: {

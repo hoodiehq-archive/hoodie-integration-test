@@ -10,6 +10,10 @@ define({
     browserName: 'firefox'
   }],
 
+  reporters: [
+    'console'
+  ],
+
   useLoader: {
     'host-node': 'dojo/dojo',
     'host-browser': 'node_modules/dojo/dojo.js'
@@ -17,5 +21,5 @@ define({
 
   functionalSuites: [ 'tests/test.js'],
 
-  excludeInstrumentation: /^(?:tests|node_modules)\//
+  excludeInstrumentation: /./
 });

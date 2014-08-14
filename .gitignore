@@ -2,6 +2,8 @@ node_modules/
 myapp
 data
 tests/hosts.json
+hosts.js
+hosts.json
 /debug
 myapp-backup
 .DS_Store

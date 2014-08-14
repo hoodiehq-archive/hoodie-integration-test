@@ -9,6 +9,7 @@ module.exports = function(grunt) {
 
   // load npm tasks
   require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('intern');
 
   var env = process.env;
   env.HOODIE_SETUP_PASSWORD = '12345';
@@ -23,7 +24,7 @@ module.exports = function(grunt) {
         tasks: [
           'rm-data',
           'hoodie:start',
-          // test command
+          'intern:tests',
           'hoodie:stop',
         ]
       },
@@ -53,7 +54,13 @@ module.exports = function(grunt) {
                 config.stack[type].port +
                 '/';
             });
-            require('fs').writeFileSync('./tests/hosts.json', JSON.stringify(output, null, 2));
+            var fs = require('fs');
+            fs.writeFileSync('./hosts.json', JSON.stringify(output, null, 2));
+            // horrible hack :(
+            fs.writeFileSync('./hosts.js', 'define(JSON.parse(\'' +
+              JSON.stringify(output) +
+              '\'));'
+            );
             grunt.log.writeflags(ports, 'Hoodie running on correct ports');
           }
         }
@@ -74,7 +81,19 @@ module.exports = function(grunt) {
           commitFiles: ['package.json', 'CHANGELOG.md']
         }
       }
+    },
+
+    intern: {
+      options: {
+        config: 'intern.js',
+        runType: 'runner'
+      },
+      tests: {}
     }
+  });
+
+  grunt.registerTask('install-selenium', function() {
+    shell.exec('sh util/install-selenium.sh');
   });
 
   grunt.registerTask('rm-app', function() {
@@ -94,8 +113,12 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', function() {
     var module = this.args.join('');
-    var tasksPre = ['shell:createApp', 'replace:injectBindShimIntoApp'];
-    var tasksPost = ['hoodie:start', /* test command */ 'hoodie:stop'];
+    var tasksPre = ['shell:createApp'];
+    var tasksPost = ['hoodie:start', 'intern:tests', 'hoodie:stop'];
+
+    if (process.env.CI) {
+      tasksPre.push('install-selenium');
+    }
 
     if (!module) {
       return grunt.task.run(tasksPre.concat(tasksPost));

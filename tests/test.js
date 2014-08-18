@@ -39,7 +39,7 @@ define([
           })
           .click()
         .end()
-        .sleep(500)
+        .setFindTimeout(1e4)
         .findByClassName('hoodie-account-signedin')
           .getVisibleText()
           .then(function(label) {

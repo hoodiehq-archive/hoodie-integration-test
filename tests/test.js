@@ -1,3 +1,5 @@
+/* global hoodie */
+
 define([
   'intern!object',
   'intern/chai!expect',
@@ -16,21 +18,24 @@ define([
         });
     },
 
-    'signup': function() {
+    'sign up / out / in': function() {
+      var username = 'hoodieuser';
+      var password = 'hoodiepassword';
+
       return this.remote
         .get(hosts.www)
-        .findByCssSelector('.hoodie-account-signedout button')
+        .findByCssSelector('[data-hoodie-action=signup]')
           .click()
         .end()
-        .setFindTimeout(1e4)
+        .setFindTimeout(10000)
         .findByName('username')
-          .type('hoodieuser')
+          .type(username)
         .end()
         .findByName('password')
-          .type('hoodiepassword')
+          .type(password)
         .end()
         .findByName('password_confirmation')
-          .type('hoodiepassword')
+          .type(password)
         .end()
         .findByCssSelector('form > div > div.modal-footer > button')
           .getVisibleText()
@@ -42,13 +47,13 @@ define([
         .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
           .getVisibleText()
           .then(function(label) {
-            expect(label).to.match(/^Hello, /);
+            expect(label).to.match(new RegExp('Hello, ' + username));
           })
         .end()
         .findByClassName('hoodie-username')
           .getVisibleText()
           .then(function(label) {
-            expect(label).to.equal('hoodieuser');
+            expect(label).to.equal(username);
           })
         .end()
         .getCookies()
@@ -65,7 +70,53 @@ define([
           var config = JSON.parse(data.config);
           expect(data.id).to.equal(config._hoodieId);
           expect(config['_account.username']).to.equal('hoodieuser');
-        });
+        })
+        .findByCssSelector('[data-hoodie-account-status=signedin] [data-hoodie-action=signout]')
+          .click()
+        .end()
+        .findByClassName('hoodie-username')
+          .getVisibleText()
+          .then(function(label) {
+            expect(label).to.equal('');
+          })
+        .end()
+        .execute(function() {
+          return JSON.stringify(localStorage);
+        })
+        .then(function(data) {
+          expect(data).to.equal('{"_hoodie_config":"{}"}');
+        })
+        .findByCssSelector('[data-hoodie-account-status=signedout] [data-toggle=dropdown]')
+          .click()
+        .end()
+        .findByCssSelector('[data-hoodie-account-status=signedout] [data-hoodie-action=signin]')
+          .click()
+        .end()
+        .findByName('username')
+          .type(username)
+        .end()
+        .findByName('password')
+          .type(password)
+        .end()
+        .findByCssSelector('form > div > div.modal-footer > button')
+          .getVisibleText()
+          .then(function(label) {
+            expect(label).to.equal('Sign in');
+          })
+          .click()
+        .end()
+        .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
+          .getVisibleText()
+          .then(function(label) {
+            expect(label).to.match(new RegExp('Hello, ' + username));
+          })
+        .end()
+        .findByClassName('hoodie-username')
+          .getVisibleText()
+          .then(function(label) {
+            expect(label).to.equal(username);
+          })
+        .end();
     }
   });
 });

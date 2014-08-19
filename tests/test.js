@@ -39,8 +39,7 @@ define([
           })
           .click()
         .end()
-        .sleep(500)
-        .findByClassName('hoodie-account-signedin')
+        .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
           .getVisibleText()
           .then(function(label) {
             expect(label).to.match(/^Hello, /);

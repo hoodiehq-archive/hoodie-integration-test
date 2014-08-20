@@ -30,22 +30,16 @@ module.exports = function(expect, hosts, user) {
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
-      .then(function(label) {
-        expect(label).to.equal('Sign Up');
-      })
+      .should.become('Sign Up')
       .click()
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .then(function(label) {
-        expect(label).to.match(new RegExp('Hello, ' + user.name));
-      })
+      .should.eventually.match(new RegExp('Hello, ' + user.name))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .then(function(label) {
-        expect(label).to.equal(user.name);
-      })
+      .should.become(user.name)
     .end()
     .getCookies()
     .then(function(cookies) {
@@ -69,16 +63,12 @@ module.exports = function(expect, hosts, user) {
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .then(function(label) {
-        expect(label).to.equal('');
-      })
+      .should.become('')
     .end()
     .execute(function() {
       return JSON.stringify(localStorage);
     })
-    .then(function(data) {
-      expect(data).to.equal('{"_hoodie_config":"{}"}');
-    })
+    .should.become('{"_hoodie_config":"{}"}')
 
     // check that tasks have been removed
     .findAllByCssSelector('#todolist li label')
@@ -103,22 +93,16 @@ module.exports = function(expect, hosts, user) {
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
-      .then(function(label) {
-        expect(label).to.equal('Sign in');
-      })
+      .should.become('Sign in')
       .click()
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .then(function(label) {
-        expect(label).to.match(new RegExp('Hello, ' + user.name));
-      })
+      .should.eventually.match(new RegExp('Hello, ' + user.name))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .then(function(label) {
-        expect(label).to.equal(user.name);
-      })
+      .should.become(user.name)
     .end()
 
     // check that tasks have been added again

@@ -3,9 +3,8 @@
 define([
   'intern!object',
   'intern/chai!expect',
-  'require',
-  '../hosts.js'
-], function (registerSuite, expect, require, hosts) {
+  'intern/dojo/node!../hosts.json'
+], function (registerSuite, expect, hosts) {
   registerSuite({
     name: 'www',
 

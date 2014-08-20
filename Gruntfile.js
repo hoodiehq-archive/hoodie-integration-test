@@ -56,11 +56,6 @@ module.exports = function(grunt) {
             });
             var fs = require('fs');
             fs.writeFileSync('./hosts.json', JSON.stringify(output, null, 2));
-            // horrible hack :(
-            fs.writeFileSync('./hosts.js', 'define(JSON.parse(\'' +
-              JSON.stringify(output) +
-              '\'));'
-            );
             grunt.log.writeflags(ports, 'Hoodie running on correct ports');
           }
         }

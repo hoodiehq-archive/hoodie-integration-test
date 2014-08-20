@@ -2,6 +2,7 @@
   "name": "hoodie-integration-test",
   "version": "0.1.4",
   "dependencies": {
+    "glob": "^4.0.5",
     "grunt": "^0.4.5",
     "grunt-hoodie": "^0.5.4",
     "grunt-release-hoodie": "^2.0.1",

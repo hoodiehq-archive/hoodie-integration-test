@@ -1,5 +1,6 @@
 var path = require('path');
 
+var cp = require('child_process');
 var shell = require('shelljs');
 
 var depPath = require('./util/dep-path');
@@ -127,11 +128,17 @@ module.exports = function(grunt) {
           return done();
         }
 
-        shell.exec('npm link ' + module, {
-          cwd: path.join(appname, depPath)
+        cp.exec('npm link ' + module, {
+          cwd: path.resolve(path.join(appname, depPath))
+        }, function(err, stdout, stderr) {
+          if (err) {
+            console.log('execution error: ', err);
+          }
+          console.log(stdout);
+          console.log(stderr);
+          grunt.task.run(tasksPost);
+          done();
         });
-        grunt.task.run(tasksPost);
-        done();
       });
     });
 

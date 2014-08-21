@@ -1,3 +1,12 @@
+<a name="0.2.0-rc.2"></a>
+### 0.2.0-rc.2 (2014-08-21)
+
+
+#### Bug Fixes
+
+* **integration-test:** use child_process.exec for cwd to have an effect ((d52f989c))
+
+
 <a name="0.2.0-rc.1"></a>
 ### 0.2.0-rc.1 (2014-08-21)
 

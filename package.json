@@ -1,6 +1,6 @@
 {
   "name": "hoodie-integration-test",
-  "version": "0.2.0-rc.1",
+  "version": "0.2.0-rc.2",
   "dependencies": {
     "chai-as-promised": "^4.1.1",
     "glob": "^4.0.5",
@@ -20,5 +20,5 @@
   "devDependencies": {
     "grunt-contrib-watch": "^0.6.1"
   },
-  "codename": "fabulous-mosquito"
+  "codename": "great-toad"
 }

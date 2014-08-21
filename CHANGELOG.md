@@ -1,3 +1,14 @@
+<a name="0.2.0-rc.1"></a>
+### 0.2.0-rc.1 (2014-08-21)
+
+
+#### Bug Fixes
+
+* make test more robust by replacing wait with findTimeout ((42ea8bec))
+* inject Function.prototype.bind polyfill into the app ((267b0ccc))
+* **test:** inject bind polyfill to `grunt test` task ((19b47448))
+
+
 <a name="0.1.4"></a>
 ### 0.1.4 (2014-08-07)
 

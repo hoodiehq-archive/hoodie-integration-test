@@ -1,6 +1,6 @@
 /* global hoodie */
 
-module.exports = function(expect, hosts/*, user*/) {
+module.exports = function(expect, hosts, options) {
 
   var testDb = 'hoodie-open-' + Date.now();
 
@@ -37,16 +37,16 @@ module.exports = function(expect, hosts/*, user*/) {
     }, [testDb])
 
     // create the db to test with
-    .executeAsync(function(testDb, callback) {
+    .executeAsync(function(testDb, adminPassword, callback) {
       $.ajax({
         type:'PUT',
         url: '/_api/' + testDb,
         headers: {
-          Authorization: 'Basic ' + btoa('admin:funkyfresh')
+          Authorization: 'Basic ' + btoa('admin:'+adminPassword)
         },
         contentType: 'application/json'
       }).done(callback);
-    }, [testDb])
+    }, [testDb, options.adminPassword])
 
     // make sure we are not signed in
     .executeAsync(function(callback) {

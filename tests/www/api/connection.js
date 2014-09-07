@@ -1,6 +1,6 @@
 /* global hoodie */
 
-module.exports = function(expect, hosts/*, user*/) {
+module.exports = function(expect, hosts) {
 
   return this.remote
     .get(hosts.www)

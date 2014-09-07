@@ -6,9 +6,12 @@ module.exports = function(expect, hosts) {
     name: 'www'
   };
 
-  var user = {
-    name: 'hoodieuser',
-    password: 'hoodiepassword'
+  var options = {
+    adminPassword: '12345'
+    user: {
+      name: 'hoodieuser',
+      password: 'hoodiepassword'
+    }
   };
 
   glob(path.join(__dirname, '/**/*.js')).forEach(function(path) {
@@ -20,7 +23,7 @@ module.exports = function(expect, hosts) {
 
     suites[name] = function() {
       return require(path)
-        .bind(this, expect, hosts, user)
+        .bind(this, expect, hosts, options)
         .apply(this, arguments);
     };
   });

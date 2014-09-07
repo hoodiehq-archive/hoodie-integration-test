@@ -1,19 +1,12 @@
 /* global hoodie */
 
-module.exports = function(expect, hosts, user) {
+module.exports = function(expect, hosts, options) {
 
   var currentHoodieId;
   var accountHoodieId;
-  var username = user.name + '-id-' + Date.now();
-  var password = user.password;
+  var username = options.user.name + '-id-' + Date.now();
+  var password = options.user.password;
   return this.remote
-    // .get(hosts.www)
-    // .clearCookies()
-    // // not supported by Firefox it seams:
-    // // .clearLocalStorage()
-    // .execute(function() {
-    //   localStorage.clear();
-    // })
 
     .get(hosts.www)
     .setExecuteAsyncTimeout(10000)

@@ -1,6 +1,6 @@
 /* global hoodie */
 
-module.exports = function(expect, hosts, user) {
+module.exports = function(expect, hosts, options) {
   var task1 = 'milk';
   var task2 = 'bread';
   var task3 = 'butter';
@@ -8,6 +8,17 @@ module.exports = function(expect, hosts, user) {
   var task5 = 'moar Nutella';
 
   return this.remote
+    // make sure we have a clean state
+    .get(hosts.www)
+    .clearCookies()
+    // not supported by Firefox it seams:
+    // .clearLocalStorage()
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      setTimeout(callback);
+    })
+
+    // start
     .get(hosts.www)
     .setFindTimeout(10000)
 
@@ -23,13 +34,13 @@ module.exports = function(expect, hosts, user) {
       .click()
     .end()
     .findByName('username')
-      .type(user.name)
+      .type(options.user.name)
     .end()
     .findByName('password')
-      .type(user.password)
+      .type(options.user.password)
     .end()
     .findByName('password_confirmation')
-      .type(user.password)
+      .type(options.user.password)
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -38,11 +49,11 @@ module.exports = function(expect, hosts, user) {
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + user.name))
+      .should.eventually.match(new RegExp('Hello, ' + options.user.name))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(user.name)
+      .should.become(options.user.name)
     .end()
     .getCookies()
     .then(function(cookies) {
@@ -89,10 +100,10 @@ module.exports = function(expect, hosts, user) {
       .click()
     .end()
     .findByName('username')
-      .type(user.name)
+      .type(options.user.name)
     .end()
     .findByName('password')
-      .type(user.password)
+      .type(options.user.password)
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -101,11 +112,11 @@ module.exports = function(expect, hosts, user) {
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + user.name))
+      .should.eventually.match(new RegExp('Hello, ' + options.user.name))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(user.name)
+      .should.become(options.user.name)
     .end()
 
     // check that tasks have been added again
@@ -125,10 +136,10 @@ module.exports = function(expect, hosts, user) {
       .click()
     .end()
     .findByName('username')
-      .type(user.name)
+      .type(options.user.name)
     .end()
     .findByName('password')
-      .type(user.password)
+      .type(options.user.password)
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -137,11 +148,11 @@ module.exports = function(expect, hosts, user) {
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + user.name))
+      .should.eventually.match(new RegExp('Hello, ' + options.user.name))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(user.name)
+      .should.become(options.user.name)
     .end()
 
     // change password
@@ -152,10 +163,10 @@ module.exports = function(expect, hosts, user) {
       .click()
     .end()
     .findByName('current_password')
-      .type(user.password)
+      .type(options.user.password)
     .end()
     .findByName('new_password')
-      .type(user.password + '2')
+      .type(options.user.password + '2')
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -190,10 +201,10 @@ module.exports = function(expect, hosts, user) {
       .click()
     .end()
     .findByName('username')
-      .type(user.name)
+      .type(options.user.name)
     .end()
     .findByName('password')
-      .type(user.password + '2')
+      .type(options.user.password + '2')
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -202,11 +213,11 @@ module.exports = function(expect, hosts, user) {
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + user.name))
+      .should.eventually.match(new RegExp('Hello, ' + options.user.name))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(user.name)
+      .should.become(options.user.name)
     .end()
 
     // check that all tasks have been added
@@ -225,10 +236,10 @@ module.exports = function(expect, hosts, user) {
       .click()
     .end()
     .findByName('current_password')
-      .type(user.password + '2')
+      .type(options.user.password + '2')
     .end()
     .findByName('new_username')
-      .type(user.name + '2')
+      .type(options.user.name + '2')
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -242,11 +253,11 @@ module.exports = function(expect, hosts, user) {
 
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + user.name + '2'))
+      .should.eventually.match(new RegExp('Hello, ' + options.user.name + '2'))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(user.name + '2')
+      .should.become(options.user.name + '2')
     .end()
 
     // destroy account
@@ -268,9 +279,9 @@ module.exports = function(expect, hosts, user) {
     //       instead of returning an empty array. There must be a more elegant
     //       way to do that, please let me know ~@gr2m
     .execute(function() {
-      return $('#todolist li label').length
+      return $('#todolist li label').length;
     })
     .then(function(length) {
       expect(length).to.equal(0);
-    })
+    });
 };

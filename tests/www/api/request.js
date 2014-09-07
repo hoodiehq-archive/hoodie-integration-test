@@ -63,7 +63,7 @@ module.exports = function(expect, hosts) {
     })
     .then(function(error) {
       expect(error.toString()).to.match(/HoodieConnectionError/);
-    });
+    })
 
     // hoodie.request('GET', '<path to CORS enabled endpoint') to resolve with response
     // FIXME: uncomment once Bearer Token is merged
@@ -74,4 +74,15 @@ module.exports = function(expect, hosts) {
     // .then(function(response) {
     //   expect(typeof response).to.equal('object');
     // })
+
+
+
+    // cleanup
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      $.ajax({
+        type: 'DELETE',
+        url: '/_api/_session'
+      }).done(callback);
+    });
 };

@@ -5,6 +5,8 @@ module.exports = function(expect, hosts) {
   var username = 'remoteuser' + Date.now();
   var password = 'hoodiepassword';
   return this.remote
+    .setExecuteAsyncTimeout(10000)
+
     // make sure we have a clean state
     .get(hosts.www)
     .clearCookies()
@@ -12,12 +14,11 @@ module.exports = function(expect, hosts) {
     // .clearLocalStorage()
     .executeAsync(function(callback) {
       localStorage.clear();
-      setTimeout(callback);
+      setTimeout(callback, 1000);
     })
 
     // start
     .get(hosts.www)
-    .setExecuteAsyncTimeout(10000)
 
     // preparations for events testing
     .execute(function() {
@@ -156,7 +157,7 @@ module.exports = function(expect, hosts) {
     .executeAsync(function(callback) {
       $.ajax({type: 'DELETE', url: '/_api/_session'}).done(function() {
         hoodie.trigger('remote:error:unauthenticated');
-        callback();
+        setTimeout(callback);
       });
     })
 
@@ -182,5 +183,14 @@ module.exports = function(expect, hosts) {
 
       // FIXME 2nd: https://github.com/hoodiehq/hoodie.js/issues/369
       // expect(events.length).to.equal(3);
+    })
+
+    // cleanup
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      $.ajax({
+        type: 'DELETE',
+        url: '/_api/_session'
+      }).done(callback);
     });
 };

@@ -1,25 +1,17 @@
 /* global hoodie */
 
-module.exports = function(expect, hosts, options) {
+module.exports = function(expect, hosts/*, options*/) {
   var task1 = 'milk';
   var task2 = 'bread';
   var task3 = 'butter';
   var task4 = 'Nutella';
   var task5 = 'moar Nutella';
 
+  var username = 'walktrough' + Date.now();
+  var password = 'hoodiepassword';
   return this.remote
-    // make sure we have a clean state
     .get(hosts.www)
-    .clearCookies()
-    // not supported by Firefox it seams:
-    // .clearLocalStorage()
-    .executeAsync(function(callback) {
-      localStorage.clear();
-      setTimeout(callback);
-    })
-
-    // start
-    .get(hosts.www)
+    .setExecuteAsyncTimeout(10000)
     .setFindTimeout(10000)
 
     // add tasks
@@ -29,18 +21,23 @@ module.exports = function(expect, hosts, options) {
       .type(task3 + '\r')
     .end()
 
+    // .execute(function() {
+    //   $('body').css('background', '#d90');
+    // })
+    // .waitForConditionInBrowser('window.done === true', 1000000)
+
     // sign up
     .findByCssSelector('[data-hoodie-action=signup]')
       .click()
     .end()
     .findByName('username')
-      .type(options.user.name)
+      .type(username)
     .end()
     .findByName('password')
-      .type(options.user.password)
+      .type(password)
     .end()
     .findByName('password_confirmation')
-      .type(options.user.password)
+      .type(password)
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -49,11 +46,11 @@ module.exports = function(expect, hosts, options) {
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + options.user.name))
+      .should.eventually.match(new RegExp('Hello, ' + username))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(options.user.name)
+      .should.become(username)
     .end()
     .getCookies()
     .then(function(cookies) {
@@ -68,7 +65,7 @@ module.exports = function(expect, hosts, options) {
     .then(function(data) {
       var config = JSON.parse(data.config);
       expect(data.id).to.equal(config._hoodieId);
-      expect(config['_account.username']).to.equal('hoodieuser');
+      expect(config['_account.username']).to.equal(username);
     })
 
     // sign out
@@ -100,10 +97,10 @@ module.exports = function(expect, hosts, options) {
       .click()
     .end()
     .findByName('username')
-      .type(options.user.name)
+      .type(username)
     .end()
     .findByName('password')
-      .type(options.user.password)
+      .type(password)
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -112,11 +109,11 @@ module.exports = function(expect, hosts, options) {
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + options.user.name))
+      .should.eventually.match(new RegExp('Hello, ' + username))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(options.user.name)
+      .should.become(username)
     .end()
 
     // check that tasks have been added again
@@ -136,10 +133,10 @@ module.exports = function(expect, hosts, options) {
       .click()
     .end()
     .findByName('username')
-      .type(options.user.name)
+      .type(username)
     .end()
     .findByName('password')
-      .type(options.user.password)
+      .type(password)
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -148,11 +145,11 @@ module.exports = function(expect, hosts, options) {
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + options.user.name))
+      .should.eventually.match(new RegExp('Hello, ' + username))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(options.user.name)
+      .should.become(username)
     .end()
 
     // change password
@@ -163,10 +160,10 @@ module.exports = function(expect, hosts, options) {
       .click()
     .end()
     .findByName('current_password')
-      .type(options.user.password)
+      .type(password)
     .end()
     .findByName('new_password')
-      .type(options.user.password + '2')
+      .type(password + '2')
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -201,10 +198,10 @@ module.exports = function(expect, hosts, options) {
       .click()
     .end()
     .findByName('username')
-      .type(options.user.name)
+      .type(username)
     .end()
     .findByName('password')
-      .type(options.user.password + '2')
+      .type(password + '2')
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -213,11 +210,11 @@ module.exports = function(expect, hosts, options) {
     .end()
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + options.user.name))
+      .should.eventually.match(new RegExp('Hello, ' + username))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(options.user.name)
+      .should.become(username)
     .end()
 
     // check that all tasks have been added
@@ -236,10 +233,10 @@ module.exports = function(expect, hosts, options) {
       .click()
     .end()
     .findByName('current_password')
-      .type(options.user.password + '2')
+      .type(password + '2')
     .end()
     .findByName('new_username')
-      .type(options.user.name + '2')
+      .type(username + '2')
     .end()
     .findByCssSelector('form > div > div.modal-footer > button')
       .getVisibleText()
@@ -249,15 +246,15 @@ module.exports = function(expect, hosts, options) {
 
     // should.eventually doesn't stop the intern here, dunno why, it works
     // the first time above.
-    .waitForConditionInBrowser('hoodie.account.username === "hoodieuser2"')
+    .waitForConditionInBrowser('hoodie.account.username === "'+username+'2"')
 
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
-      .should.eventually.match(new RegExp('Hello, ' + options.user.name + '2'))
+      .should.eventually.match(new RegExp('Hello, ' + username + '2'))
     .end()
     .findByClassName('hoodie-username')
       .getVisibleText()
-      .should.become(options.user.name + '2')
+      .should.become(username + '2')
     .end()
 
     // destroy account

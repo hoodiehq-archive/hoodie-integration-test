@@ -3,6 +3,8 @@
 module.exports = function(expect, hosts) {
 
   return this.remote
+    .setExecuteAsyncTimeout(10000)
+
     // make sure we have a clean state
     .get(hosts.www)
     .clearCookies()
@@ -10,12 +12,11 @@ module.exports = function(expect, hosts) {
     // .clearLocalStorage()
     .executeAsync(function(callback) {
       localStorage.clear();
-      setTimeout(callback);
+      setTimeout(callback, 1000);
     })
 
     // start
     .get(hosts.www)
-    .setExecuteAsyncTimeout(10000)
 
     // prepare events tracking
     .execute(function() {
@@ -71,5 +72,14 @@ module.exports = function(expect, hosts) {
       expect(events[3].name).to.equal('change');
       expect(events[4].name).to.equal('success');
       expect(events[5].name).to.equal('change');
+    })
+
+    // cleanup
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      $.ajax({
+        type: 'DELETE',
+        url: '/_api/_session'
+      }).done(callback);
     });
 };

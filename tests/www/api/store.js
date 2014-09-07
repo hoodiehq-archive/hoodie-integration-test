@@ -43,5 +43,14 @@ module.exports = function(expect, hosts) {
       expect(events[1].name).to.equal('change');
 
       expect(events[0].args[0].nr).to.equal(1);
+    })
+
+    // cleanup
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      $.ajax({
+        type: 'DELETE',
+        url: '/_api/_session'
+      }).done(callback);
     });
 };

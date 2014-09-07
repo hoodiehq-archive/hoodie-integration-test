@@ -204,6 +204,15 @@ module.exports = function(expect, hosts, options) {
       expect(events[0].args[0]._rev).to.match(/^1-\w+$/);
     })
 
+    // cleanup
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      $.ajax({
+        type: 'DELETE',
+        url: '/_api/_session'
+      }).done(callback);
+    });
+
     // TODO:
     // - sync()
     // - pull()

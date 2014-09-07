@@ -74,5 +74,12 @@ module.exports = function(expect, hosts) {
       expect(isConnected).to.equal(true);
     })
 
-    ;
+    // cleanup
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      $.ajax({
+        type: 'DELETE',
+        url: '/_api/_session'
+      }).done(callback);
+    });
 };

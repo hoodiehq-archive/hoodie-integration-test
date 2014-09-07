@@ -82,5 +82,14 @@ module.exports = function(expect, hosts, options) {
     .then(function(id) {
       expect(id).to.equal(accountHoodieId);
       currentHoodieId = accountHoodieId;
+    })
+
+    // cleanup
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      $.ajax({
+        type: 'DELETE',
+        url: '/_api/_session'
+      }).done(callback);
     });
 };

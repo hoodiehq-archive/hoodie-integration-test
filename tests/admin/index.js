@@ -7,7 +7,7 @@ module.exports = function(expect, hosts) {
   };
 
   var options = {
-    adminPassword: '12345'
+    adminPassword: '12345',
     user: {
       name: 'hoodieuser',
       password: 'hoodiepassword'

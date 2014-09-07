@@ -193,6 +193,11 @@ module.exports = function(expect, hosts/*, options*/) {
       .type(task5 + '\r')
     .end()
 
+    .execute(function() {
+      // speed up getting into unauthenticated state
+      hoodie.trigger('remote:error:unauthenticated');
+    })
+
     // reauthenticate
     .findByCssSelector('[data-hoodie-account-status=error] .hoodie-account-error [data-hoodie-action=signin]')
       .click()

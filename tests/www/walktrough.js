@@ -280,6 +280,8 @@ module.exports = function(expect, hosts/*, options*/) {
     //       wait until they find a matching selector and eventually timeout
     //       instead of returning an empty array. There must be a more elegant
     //       way to do that, please let me know ~@gr2m
+    //
+    //       I also tried .waitForDeletedByCssSelector('#todolist li'), didn't work.
     .execute(function() {
       return $('#todolist li label').length;
     })

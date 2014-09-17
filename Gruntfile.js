@@ -110,7 +110,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', function() {
     var module = this.args.join('');
     var tasksPre = ['shell:createApp'];
-    var tasksPost = ['hoodie:start', 'intern:tests', 'hoodie:stop'];
+    var tasksPost = ['hoodie:start', 'intern:tests', 'hoodie:stop', 'rm-app'];
 
     if (process.env.CI) {
       tasksPre.push('install-selenium');

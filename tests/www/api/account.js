@@ -155,10 +155,9 @@ module.exports = function(expect, hosts) {
 
     // simulate unauthenticated state
     .executeAsync(function(callback) {
-      $.ajax({type: 'DELETE', url: '/_api/_session'}).done(function() {
-        hoodie.trigger('remote:error:unauthenticated');
-        setTimeout(callback);
-      });
+      hoodie.account.on('error:unauthenticated', callback)
+      hoodie.account.bearerToken = undefined;
+      hoodie.trigger('remote:error:unauthenticated');
     })
 
     .execute(function() {

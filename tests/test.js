@@ -10,5 +10,5 @@ define([
   chai.use(chaiAsPromised);
   chai.should();
   registerSuite(www(expect, hosts));
-  registerSuite(admin(expect, hosts));
+  // registerSuite(admin(expect, hosts));
 });

@@ -54,7 +54,8 @@ module.exports = function(expect, hosts/*, options*/) {
     .end()
     .getCookies()
     .then(function(cookies) {
-      expect(cookies[0].name).to.equal('AuthSession');
+      // we use bearer tokens, no cookies shoudl be set
+      expect(cookies.length).to.equal(0);
     })
     .execute(function() {
       return {

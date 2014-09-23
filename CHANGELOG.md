@@ -1,3 +1,14 @@
+<a name="0.3.0-beta.1"></a>
+### 0.3.0-beta.1 (2014-09-23)
+
+
+#### Bug Fixes
+
+* bearer token support ((28eb1bba))
+* run both www & admin tests ((83c82bd4))
+* **api:** task tests ((c5ef928b))
+
+
 <a name="0.2.1"></a>
 ### 0.2.1 (2014-09-17)
 

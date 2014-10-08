@@ -3,7 +3,7 @@ var glob = require('glob').sync;
 
 module.exports = function(expect, hosts) {
   var suites = {
-    name: 'www'
+    name: 'admin'
   };
 
   var options = {

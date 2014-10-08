@@ -11,8 +11,8 @@ module.exports = function(expect, hosts/*, options*/) {
   var password = 'hoodiepassword';
   return this.remote
     .get(hosts.www)
-    .setExecuteAsyncTimeout(10000)
-    .setFindTimeout(10000)
+    .setExecuteAsyncTimeout(30000)
+    .setFindTimeout(30000)
 
     // add tasks
     .findByCssSelector('#todoinput')
@@ -54,7 +54,7 @@ module.exports = function(expect, hosts/*, options*/) {
     .end()
     .getCookies()
     .then(function(cookies) {
-      // we use bearer tokens, no cookies shoudl be set
+      // we use bearer tokens, no cookies should be set
       expect(cookies.length).to.equal(0);
     })
     .execute(function() {

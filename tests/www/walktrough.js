@@ -83,20 +83,17 @@ module.exports = function(expect, hosts/*, options*/) {
     .should.become('{"_hoodie_config":"{}"}')
 
     // check that tasks have been removed
-    .findAllByCssSelector('#todolist li label')
-      .getVisibleText()
-      .then(function(labels) {
-        expect(labels.length).to.equal(0);
-      })
-    .end()
+    .waitForConditionInBrowser('$("#todolist li").length === 0')
 
     // sign in
     .findByCssSelector('[data-hoodie-account-status=signedout] .hoodie-account-signedout [data-toggle=dropdown]')
       .click()
     .end()
+
     .findByCssSelector('[data-hoodie-account-status=signedout] .hoodie-account-signedout [data-hoodie-action=signin]')
       .click()
     .end()
+
     .findByName('username')
       .type(username)
     .end()
@@ -283,10 +280,5 @@ module.exports = function(expect, hosts/*, options*/) {
     //       way to do that, please let me know ~@gr2m
     //
     //       I also tried .waitForDeletedByCssSelector('#todolist li'), didn't work.
-    .execute(function() {
-      return $('#todolist li label').length;
-    })
-    .then(function(length) {
-      expect(length).to.equal(0);
-    });
+    .waitForConditionInBrowser('$("#todolist li").length === 0')
 };

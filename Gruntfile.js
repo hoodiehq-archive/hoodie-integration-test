@@ -70,15 +70,6 @@ module.exports = function(grunt) {
       }
     },
 
-    release: {
-      options: {
-        bump: {
-          files: ['package.json'],
-          commitFiles: ['package.json', 'CHANGELOG.md']
-        }
-      }
-    },
-
     intern: {
       options: {
         config: 'intern.js',

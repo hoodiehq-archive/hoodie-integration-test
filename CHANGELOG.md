@@ -1,3 +1,12 @@
+<a name="0.3.1"></a>
+### 0.3.1 (2014-10-13)
+
+
+#### Bug Fixes
+
+* **utils:** use latest selenium server ((ca5420b2))
+
+
 <a name="0.3.0"></a>
 ## 0.3.0 (2014-10-08)
 

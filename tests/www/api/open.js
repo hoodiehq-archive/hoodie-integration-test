@@ -50,10 +50,8 @@ module.exports = function(expect, hosts, options) {
 
     // make sure we are not signed in
     .executeAsync(function(callback) {
-      $.ajax({
-        type:'DELETE',
-        url: '/_api/_session'
-      }).done(callback);
+      localStorage.clear();
+      setTimeout(callback);
     })
 
     // db.findAll() to resolve with empty array
@@ -207,10 +205,7 @@ module.exports = function(expect, hosts, options) {
     // cleanup
     .executeAsync(function(callback) {
       localStorage.clear();
-      $.ajax({
-        type: 'DELETE',
-        url: '/_api/_session'
-      }).done(callback);
+      setTimeout(callback);
     });
 
     // TODO:

@@ -9,7 +9,7 @@ module.exports = function(expect, hosts) {
 
     // make sure we have a clean state
     .get(hosts.www)
-    .clearCookies()
+
     // not supported by Firefox it seams:
     // .clearLocalStorage()
     .executeAsync(function(callback) {
@@ -189,9 +189,6 @@ module.exports = function(expect, hosts) {
     // cleanup
     .executeAsync(function(callback) {
       localStorage.clear();
-      $.ajax({
-        type: 'DELETE',
-        url: '/_api/_session'
-      }).done(callback);
+      setTimeout(callback);
     });
 };

@@ -71,6 +71,7 @@ module.exports = function(expect, hosts) {
 
     // still connected after page reload
     .get(hosts.www)
+    .waitForConditionInBrowser('hoodie.remote.isConnected() === true', 10000)
     .execute(function() {
       return hoodie.remote.isConnected();
     })

@@ -37,19 +37,20 @@ module.exports = function(expect, hosts) {
     //   expect(task.type).to.equal('test');
     // })
 
-    // hoodie.task.start resolves with task object
+    // hoodie.task.start resolves with task object if it succeeds
     .executeAsync(function(callback) {
-      hoodie.task.start('test', {id: 'a'}).done(callback);
-
-      // simulate successful handling of task by worker
-      setTimeout(function() {
-        console.log(hoodie.id());
-        hoodie.remote.update('$test', 'a', {_deleted: true, $processedAt: new Date()});
-      }, 3000);
+      hoodie.task.start('test', {foo: 'bar1'}).done(callback);
     })
     .then(function(task) {
-      expect(task.type).to.equal('test');
-      expect(task.id).to.equal('a');
+      expect(task.foo).to.equal('bar1');
+    })
+    .executeAsync(function(callback) {
+      hoodie.task.start('test', {foo: 'bar2', fail: true}).fail(callback);
+    })
+    .then(function(error) {
+      // FIXME https://github.com/hoodiehq/hoodie.js/issues/378
+      // expect(error.name).to.equal('TestError');
+      // expect(error.message).to.equal('Test failed errored intentionally.');
     })
 
     .execute(function() {
@@ -69,6 +70,8 @@ module.exports = function(expect, hosts) {
       expect(events[0].name).to.equal('start');
       expect(events[1].name).to.equal('change');
       expect(events[2].name).to.equal('success');
+      expect(events[3].name).to.equal('change');
+      expect(events[2].name).to.equal('error');
       expect(events[3].name).to.equal('change');
     })
 

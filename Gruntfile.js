@@ -69,7 +69,7 @@ module.exports = function(grunt) {
         command: './node_modules/.bin/hoodie new ' + appname
       },
       installTestPlugin: {
-        command: './node_modules/.bin/hoodie install test'
+        command: 'cd ' + appname + ' && ./../node_modules/.bin/hoodie install test && cd -'
       }
     },
 

@@ -33,7 +33,7 @@ module.exports = function(expect, hosts) {
     // .executeAsync(function(callback) {
     //   hoodie.task.start('test', {nr: 1}).progress(callback);
     // })
-    // .then(function(/*task*/) {
+    // .then(function(task) {
     //   expect(task.type).to.equal('test');
     // })
 
@@ -57,22 +57,15 @@ module.exports = function(expect, hosts) {
       return window.events;
     })
     .then(function(events) {
-      // see FIXME above
-      // expect(events.length).to.equal(6);
-      // expect(events[0].name).to.equal('start');
-      // expect(events[1].name).to.equal('change');
-      // expect(events[2].name).to.equal('start');
-      // expect(events[3].name).to.equal('change');
-      // expect(events[4].name).to.equal('success');
-      // expect(events[5].name).to.equal('change');
-
-      expect(events.length).to.equal(4);
+      expect(events.length).to.equal(8);
       expect(events[0].name).to.equal('start');
       expect(events[1].name).to.equal('change');
       expect(events[2].name).to.equal('success');
       expect(events[3].name).to.equal('change');
-      expect(events[2].name).to.equal('error');
-      expect(events[3].name).to.equal('change');
+      expect(events[4].name).to.equal('start');
+      expect(events[5].name).to.equal('change');
+      expect(events[6].name).to.equal('error');
+      expect(events[7].name).to.equal('change');
     })
 
     // cleanup

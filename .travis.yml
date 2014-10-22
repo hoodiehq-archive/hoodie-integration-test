@@ -9,6 +9,8 @@ notifications:
     channels:
     - chat.freenode.net#hoodie
     skip_join: true
+  slack:
+    secure: ZMz9TDAQMC2gDIngNN+p69ftHhFeQ48wQ36j8XkPzPRO1ErMLC1dM6EPAzcm8TL2cPtq4rXLz0/5HjQe91RZwqXnJ1kpHOuNBf7VNJPq81DzITdfUtrd4Bv6lI9bIfnlkJu8OrVZp+z/w50jDx4WApATNeTwiBEKr4qWHU/DHLQ=
 before_install:
 - npm install -g grunt-cli
 before_deploy:

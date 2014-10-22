@@ -67,6 +67,9 @@ module.exports = function(grunt) {
     shell: {
       createApp: {
         command: './node_modules/.bin/hoodie new ' + appname
+      },
+      installTestPlugin: {
+        command: 'cd ' + appname + ' && ./../node_modules/.bin/hoodie install test && cd -'
       }
     },
 
@@ -95,12 +98,13 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', [
     'rm-app',
     'shell:createApp',
+    'shell:installTestPlugin',
     'watch'
   ]);
 
   grunt.registerTask('test', function() {
     var module = this.args.join('');
-    var tasksPre = ['shell:createApp'];
+    var tasksPre = ['shell:createApp', 'shell:installTestPlugin'];
     var tasksPost = ['hoodie:start', 'intern:tests', 'hoodie:stop', 'rm-app'];
 
     if (process.env.CI) {

@@ -70,10 +70,6 @@ module.exports = function(expect, hosts) {
     .executeAsync(function(oldPassword, newPassword, callback) {
       hoodie.account.changePassword(oldPassword, newPassword).done(callback);
     }, [password, password + '2'])
-    .then(function() {
-      // FIXME: https://github.com/hoodiehq/hoodie.js/issues/364
-      // expect(arguments.length).to.equal(0);
-    })
 
     // change username resolves with new username
     .executeAsync(function(newUsername, password, callback) {

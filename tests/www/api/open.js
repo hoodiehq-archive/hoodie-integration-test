@@ -97,13 +97,14 @@ module.exports = function(expect, hosts, options) {
       window.testDb.add('test', {nr: 1})
       .done(function(object){
         // FIXME: object is wrong, see https://github.com/hoodiehq/hoodie.js/issues/361
+        // window.lastObjectId = object.id;
         window.lastObjectId = object.id.split(/\//)[1];
       })
       .done(callback);
     })
-    .then(function() {
+    .then(function(object) {
       // FIXME: blocked by https://github.com/hoodiehq/hoodie.js/issues/361
-      // expect(object.id).to.match(/^[a-z0-9{9}]$/);
+      // expect(object.id).to.match(/^[a-z0-9]{7}$/);
       // expect(object.type).to.equal('test');
       // expect(object.nr).to.equal(1);
     })

@@ -235,8 +235,8 @@ module.exports = function(expect, hosts) {
     })
 
 
-    // store.findAll returns all objects
-    // Scenario: empty store, then add test objcets
+    // store.removeAll returns all objects
+    // Scenario: empty store, add test objects, remove all
     // FIXME: https://github.com/hoodiehq/hoodie.js/issues/380
     // .executeAsync(function(callback) {
     //   hoodie.store.clear().done(callback);
@@ -250,17 +250,7 @@ module.exports = function(expect, hosts) {
     // .executeAsync(function(callback) {
     //   hoodie.store.add('note', {subject: 'my 2nd note'}).done(callback);
     // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.removeAll().done(callback);
-    // })
-    // .then(function(objects) {
-    //   expect(objects.length).to.equal(3);
-    //   expect(objects[0]).to.equal('FUNK');
-    //   expect(objects[0].subject).to.equal('my 2nd note');
-    //   expect(objects[1].subject).to.equal('my 1st note');
-    //   expect(objects[2].foo).to.equal('bar');
-    // })
-    // // store.removeAll('nada') suceeds with empty array
+    // // store.removeAll('nada') resolves with empty array
     // .executeAsync(function(callback) {
     //   hoodie.store.removeAll('nada').done(callback);
     // })
@@ -276,7 +266,14 @@ module.exports = function(expect, hosts) {
     //   expect(objects[0].subject).to.equal('my 2nd note');
     //   expect(objects[1].subject).to.equal('my 1st note');
     // })
-
+    // // store.removeAll() resolves with [test] array
+    // .executeAsync(function(callback) {
+    //   hoodie.store.removeAll().done(callback);
+    // })
+    // .then(function(objects) {
+    //   expect(objects.length).to.equal(1);
+    //   expect(objects[0].foo).to.equal('bar');
+    // })
 
     // store.changedObjects returns empty array if there are no objects
     .executeAsync(function(callback) {

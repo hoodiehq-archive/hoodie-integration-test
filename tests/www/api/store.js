@@ -208,8 +208,8 @@ module.exports = function(expect, hosts) {
     // })
     // .then(function(objects) {
     //   expect(objects.length).to.equal(2);
+    //   expect(objects[0].isArchived).to.equal(true);
     //   expect(objects[1].isArchived).to.equal(true);
-    //   expect(objects[2].isArchived).to.equal(true);
     // })
 
 

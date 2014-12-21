@@ -32,6 +32,7 @@ module.exports = function(expect, hosts) {
         'changepassword',
         'passwordreset',
         'reauthenticated',
+        'destroy',
         'error:unauthenticated',
         'error:passwordreset'
       ].forEach(function(eventName) {

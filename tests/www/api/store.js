@@ -6,6 +6,15 @@ module.exports = function(expect, hosts) {
     .get(hosts.www)
     .setExecuteAsyncTimeout(10000)
 
+    // clear local data
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      setTimeout(callback, 100);
+    })
+
+    // start
+    .get(hosts.www)
+
     // prepare events tracking
     .execute(function() {
       window.events = [];
@@ -55,10 +64,17 @@ module.exports = function(expect, hosts) {
     // store.add fails if object exist
     // FIXME: https://github.com/hoodiehq/hoodie.js/issues/377
     // .executeAsync(function(callback) {
-    //   hoodie.store.add('test', {id: '123'}).fail(callback);
+    //   hoodie.store.add('test', {id: '123'})//.fail(callback);
+    //   .fail(function(error) {
+    //     // no clue why, but the error object turns into a string
+    //     // when passed directly?!
+    //     callback({
+    //       name: error.name
+    //     })
+    //   })
     // })
     // .then(function(error) {
-    //   expect(error).to.equal('123');
+    //   expect(error.name).to.equal('HoodieConflictError');
     // })
 
     // store.findOrAdd succeeds if object exist

@@ -172,8 +172,8 @@ module.exports = function(expect, hosts) {
     })
 
     // FIXME:
-    // store.findAll returns all objects
-    // Scenario: empty store, then add one test objcet
+    // store.updateAll returns all objects
+    // Scenario: empty store, add test objects, update all & filtered by type
     // .executeAsync(function(callback) {
     //   hoodie.store.clear().done(callback);
     // })

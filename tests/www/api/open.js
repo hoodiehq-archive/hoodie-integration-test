@@ -6,7 +6,7 @@ module.exports = function(expect, hosts, options) {
 
   return this.remote
     .get(hosts.www)
-    .setExecuteAsyncTimeout(30000)
+    .setExecuteAsyncTimeout(120000)
 
     // preparations
     .execute(function(testDb) {

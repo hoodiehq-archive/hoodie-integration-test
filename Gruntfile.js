@@ -82,8 +82,11 @@ module.exports = function(grunt) {
     }
   });
 
+  var defaultMaxbuffer =  200 * 1024; // http://nodejs.org/api/child_process.html
   grunt.registerTask('install-selenium', function() {
-    shell.exec('sh util/install-selenium.sh');
+    shell.exec('sh util/install-selenium.sh', {
+      maxBuffer: defaultMaxbuffer * 2
+    });
   });
 
   grunt.registerTask('rm-app', function() {

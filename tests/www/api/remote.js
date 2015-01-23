@@ -32,7 +32,7 @@ module.exports = function(expect, hosts) {
         'remove',
         'push'
       ].forEach(function(eventName) {
-        hoodie.remote.on(eventName, function(object) {
+        hoodie.remote.on(eventName, function() {
 
           window.events.push({
             name: eventName,
@@ -51,8 +51,12 @@ module.exports = function(expect, hosts) {
     })
 
     .executeAsync(function(username, password, callback) {
-      hoodie.account.signUp(username, password).done(callback);
-    }, [username, password])
+      hoodie.account.signUp(username, password)
+      .done(callback)
+      .fail(function(error) {
+        throw error;
+      });
+    }, [username, password], 30000)
 
     // connected after sign up
     .execute(function() {

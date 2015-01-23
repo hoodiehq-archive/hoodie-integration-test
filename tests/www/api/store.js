@@ -62,20 +62,19 @@ module.exports = function(expect, hosts) {
     })
 
     // store.add fails if object exist
-    // FIXME: https://github.com/hoodiehq/hoodie.js/issues/377
-    // .executeAsync(function(callback) {
-    //   hoodie.store.add('test', {id: '123'})//.fail(callback);
-    //   .fail(function(error) {
-    //     // no clue why, but the error object turns into a string
-    //     // when passed directly?!
-    //     callback({
-    //       name: error.name
-    //     })
-    //   })
-    // })
-    // .then(function(error) {
-    //   expect(error.name).to.equal('HoodieConflictError');
-    // })
+    .executeAsync(function(callback) {
+      hoodie.store.add('test', {id: '123'})
+      .fail(function(error) {
+        // Because of some weirdness, but the error object
+        // turns into a string when passed directly
+        callback({
+          name: error.name
+        });
+      });
+    })
+    .then(function(error) {
+      expect(error.name).to.equal('HoodieConflictError');
+    })
 
     // store.findOrAdd succeeds if object exist
     .executeAsync(function(callback) {
@@ -104,12 +103,19 @@ module.exports = function(expect, hosts) {
 
     // store.find fails if object exists
     .executeAsync(function(callback) {
-      hoodie.store.find('test', 'nope').fail(callback);
+      hoodie.store.find('test', 'nope')
+      .fail(function(error) {
+        // Because of some weirdness, but the error object
+        // turns into a string when passed directly
+        callback({
+          message: error.message,
+          name: error.name
+        });
+      });
     })
     .then(function(error) {
-      // FIXME https://github.com/hoodiehq/hoodie.js/issues/378
-      // expect(error.name).to.equal('HoodieNotFoundError');
-      // expect(error.message).to.equal('"test" with id "nope" could not be found');
+      expect(error.name).to.equal('HoodieNotFoundError');
+      expect(error.message).to.equal('"test" with id "nope" could not be found');
     })
 
 
@@ -163,54 +169,59 @@ module.exports = function(expect, hosts) {
 
     // store.update fails if object exists
     .executeAsync(function(callback) {
-      hoodie.store.find('test', 'nope').fail(callback);
+      hoodie.store.find('test', 'nope')
+      .fail(function(error) {
+        // Because of some weirdness, but the error object
+        // turns into a string when passed directly
+        callback({
+          message: error.message,
+          name: error.name
+        });
+      });
     })
     .then(function(error) {
-      // FIXME https://github.com/hoodiehq/hoodie.js/issues/378
-      // expect(error.name).to.equal('HoodieNotFoundError');
-      // expect(error.message).to.equal('"test" with id "nope" could not be found');
+      expect(error.name).to.equal('HoodieNotFoundError');
+      expect(error.message).to.equal('"test" with id "nope" could not be found');
     })
 
-    // FIXME:
-    // store.updateAll returns all objects
     // Scenario: empty store, add test objects, update all & filtered by type
-    // .executeAsync(function(callback) {
-    //   hoodie.store.clear().done(callback);
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.add('test', {foo: 'bar'}).done(callback);
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.add('note', {subject: 'my 1st note'}).done(callback);
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.add('note', {subject: 'my 2nd note'}).done(callback);
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.updateAll({isFunky: true}).done(callback);
-    // })
-    // .then(function(objects) {
-    //   expect(objects.length).to.equal(3);
-    //   expect(objects[0].isFunky).to.equal(true);
-    //   expect(objects[1].isFunky).to.equal(true);
-    //   expect(objects[2].isFunky).to.equal(true);
-    // })
-    // // store.updateAll('nada', {isFunky: true}) suceeds with empty arry
-    // .executeAsync(function(callback) {
-    //   hoodie.store.updateAll('nada', {isFunky: true}).done(callback);
-    // })
-    // .then(function(objects) {
-    //   expect(objects.length).to.equal(0);
-    // })
-    // // store.updateAll('note', {isArchived: true}) return [note, note] array
-    // .executeAsync(function(callback) {
-    //   hoodie.store.updateAll('note', {isArchived: true}).done(callback);
-    // })
-    // .then(function(objects) {
-    //   expect(objects.length).to.equal(2);
-    //   expect(objects[0].isArchived).to.equal(true);
-    //   expect(objects[1].isArchived).to.equal(true);
-    // })
+    .executeAsync(function(callback) {
+      hoodie.store.clear().done(callback);
+    })
+    .executeAsync(function(callback) {
+      hoodie.store.add('test', {foo: 'bar'}).done(callback);
+    })
+    .executeAsync(function(callback) {
+      hoodie.store.add('note', {subject: 'my 1st note'}).done(callback);
+    })
+    .executeAsync(function(callback) {
+      hoodie.store.add('note', {subject: 'my 2nd note'}).done(callback);
+    })
+    .executeAsync(function(callback) {
+      hoodie.store.updateAll({isFunky: true}).done(callback);
+    })
+    .then(function(objects) {
+      expect(objects.length).to.equal(3);
+      expect(objects[0].isFunky).to.equal(true);
+      expect(objects[1].isFunky).to.equal(true);
+      expect(objects[2].isFunky).to.equal(true);
+    })
+    // store.updateAll('nada', {isFunky: true}) suceeds with empty arry
+    .executeAsync(function(callback) {
+      hoodie.store.updateAll('nada', {isFunky: true}).done(callback);
+    })
+    .then(function(objects) {
+      expect(objects.length).to.equal(0);
+    })
+    // store.updateAll('note', {isArchived: true}) return [note, note] array
+    .executeAsync(function(callback) {
+      hoodie.store.updateAll('note', {isArchived: true}).done(callback);
+    })
+    .then(function(objects) {
+      expect(objects.length).to.equal(2);
+      expect(objects[0].isArchived).to.equal(true);
+      expect(objects[1].isArchived).to.equal(true);
+    })
 
 
     // store.find succeeds if object exists
@@ -226,54 +237,60 @@ module.exports = function(expect, hosts) {
 
     // store.find fails if object exists
     .executeAsync(function(callback) {
-      hoodie.store.remove('test', 'nope').fail(callback);
+      hoodie.store.remove('test', 'nope')
+      .fail(function(error) {
+        // Because of some weirdness, but the error object
+        // turns into a string when passed directly
+        callback({
+          message: error.message,
+          name: error.name
+        });
+      });
     })
     .then(function(error) {
-      // FIXME https://github.com/hoodiehq/hoodie.js/issues/378
-      // expect(error.name).to.equal('HoodieNotFoundError');
-      // expect(error.message).to.equal('"test" with id "nope" could not be found');
+      expect(error.name).to.equal('HoodieNotFoundError');
+      expect(error.message).to.equal('"test" with id "nope" could not be found');
     })
 
 
     // store.removeAll returns all objects
     // Scenario: empty store, add test objects, remove all
-    // FIXME: https://github.com/hoodiehq/hoodie.js/issues/380
-    // .executeAsync(function(callback) {
-    //   hoodie.store.clear().done(callback);
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.add('test', {foo: 'bar'}).done(callback);
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.add('note', {subject: 'my 1st note'}).done(callback);
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.add('note', {subject: 'my 2nd note'}).done(callback);
-    // })
-    // // store.removeAll('nada') resolves with empty array
-    // .executeAsync(function(callback) {
-    //   hoodie.store.removeAll('nada').done(callback);
-    // })
-    // .then(function(objects) {
-    //   expect(objects.length).to.equal(0);
-    // })
-    // // store.removeAll('note') return [note, note] array
-    // .executeAsync(function(callback) {
-    //   hoodie.store.removeAll('note').done(callback);
-    // })
-    // .then(function(objects) {
-    //   expect(objects.length).to.equal(2);
-    //   expect(objects[0].subject).to.equal('my 2nd note');
-    //   expect(objects[1].subject).to.equal('my 1st note');
-    // })
-    // // store.removeAll() resolves with [test] array
-    // .executeAsync(function(callback) {
-    //   hoodie.store.removeAll().done(callback);
-    // })
-    // .then(function(objects) {
-    //   expect(objects.length).to.equal(1);
-    //   expect(objects[0].foo).to.equal('bar');
-    // })
+    .executeAsync(function(callback) {
+      hoodie.store.clear().done(callback);
+    })
+    .executeAsync(function(callback) {
+      hoodie.store.add('test', {foo: 'bar'}).done(callback);
+    })
+    .executeAsync(function(callback) {
+      hoodie.store.add('note', {subject: 'my 1st note'}).done(callback);
+    })
+    .executeAsync(function(callback) {
+      hoodie.store.add('note', {subject: 'my 2nd note'}).done(callback);
+    })
+    // store.removeAll('nada') resolves with empty array
+    .executeAsync(function(callback) {
+      hoodie.store.removeAll('nada').done(callback);
+    })
+    .then(function(objects) {
+      expect(objects.length).to.equal(0);
+    })
+    // store.removeAll('note') return [note, note] array
+    .executeAsync(function(callback) {
+      hoodie.store.removeAll('note').done(callback);
+    })
+    .then(function(objects) {
+      expect(objects.length).to.equal(2);
+      expect(objects[0].subject).to.equal('my 2nd note');
+      expect(objects[1].subject).to.equal('my 1st note');
+    })
+    // store.removeAll() resolves with [test] array
+    .executeAsync(function(callback) {
+      hoodie.store.removeAll().done(callback);
+    })
+    .then(function(objects) {
+      expect(objects.length).to.equal(1);
+      expect(objects[0].foo).to.equal('bar');
+    })
 
     // store.changedObjects returns empty array if there are no objects
     .executeAsync(function(callback) {
@@ -293,7 +310,7 @@ module.exports = function(expect, hosts) {
       hoodie.store.add('test', {foo: 'bar2'}).done(callback);
     })
     .execute(function() {
-      return hoodie.store.changedObjects()
+      return hoodie.store.changedObjects();
     })
     .then(function(objects) {
       expect(objects.length).to.equal(2);
@@ -301,9 +318,10 @@ module.exports = function(expect, hosts) {
     })
     // after user signed up, changed objects are empty
     .executeAsync(function(callback) {
-      hoodie.account.signUp('changedObjectsTest' + Date.now(), 'secret').done(callback);
+      hoodie.account.signUp('changedObjectsTest' + Date.now(), 'secret')
+      .done(callback);
     })
-    .waitForConditionInBrowser('hoodie.store.changedObjects().length === 0', 10000)
+    .waitForConditionInBrowser('hoodie.store.changedObjects().length === 0', 30000)
     // cleanup
     .executeAsync(function(callback) {
       hoodie.account.destroy().done(callback);
@@ -315,7 +333,7 @@ module.exports = function(expect, hosts) {
       hoodie.store.clear().done(callback);
     })
     .execute(function() {
-      return hoodie.store.hasLocalChanges()
+      return hoodie.store.hasLocalChanges();
     })
     .then(function(hasChanges) {
       expect(hasChanges).to.equal(false);
@@ -328,14 +346,15 @@ module.exports = function(expect, hosts) {
       hoodie.store.add('test', {foo: 'bar2'}).done(callback);
     })
     .execute(function() {
-      return hoodie.store.hasLocalChanges()
+      return hoodie.store.hasLocalChanges();
     })
     .then(function(hasChanges) {
       expect(hasChanges).to.equal(true);
     })
     // after user signed up & sync, store.hasLocalChanges() returns false
     .executeAsync(function(callback) {
-      hoodie.account.signUp('hasLocalChangesTest' + Date.now(), 'secret').done(callback);
+      hoodie.account.signUp('hasLocalChangesTest' + Date.now(), 'secret')
+      .done(callback);
     })
     .waitForConditionInBrowser('hoodie.store.hasLocalChanges() === false', 10000)
     .executeAsync(function(callback) {
@@ -411,38 +430,35 @@ module.exports = function(expect, hosts) {
     })
     .then(function(objects) {
       expect(objects.length).to.equal(1);
-      // FIXME https://github.com/hoodiehq/hoodie.js/issues/380
-      // expect(objects[0].foo).to.equal('bar2');
+      expect(objects[0].foo).to.equal('bar2');
     })
 
     // scoped store by type & id
-    // FIXME: https://github.com/hoodiehq/hoodie.js/issues/381
-    // .executeAsync(function(callback) {
-    //   hoodie.store.clear().done(callback);
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.store.add('test', {id: '123', foo: 'bar'}).done(callback);
-    //   hoodie.test123Store = hoodie.store('test', '123');
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.testStore.find().done(callback);
-    // })
-    // .then(function(object) {
-    //   expect(object.foo).to.equal('bar');
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.testStore.update({foo: 'lalala'}).done(callback);
-    // })
-    // .then(function(object) {
-    //   expect(object.foo).to.equal('lalala');
-    // })
-    // .executeAsync(function(callback) {
-    //   hoodie.testStore.remove().done(callback);
-    // })
-    // .then(function(object) {
-    //   expect(object.foo).to.equal('lalala');
-    // })
-
+    .executeAsync(function(callback) {
+      hoodie.store.clear().done(callback);
+    })
+    .executeAsync(function(callback) {
+      hoodie.store.add('test', {id: '123', foo: 'bar'}).done(callback);
+      hoodie.test123Store = hoodie.store('test', '123');
+    })
+    .executeAsync(function(callback) {
+      hoodie.test123Store.find().done(callback);
+    })
+    .then(function(object) {
+      expect(object.foo).to.equal('bar');
+    })
+    .executeAsync(function(callback) {
+      hoodie.test123Store.update({foo: 'lalala'}).done(callback);
+    })
+    .then(function(object) {
+      expect(object.foo).to.equal('lalala');
+    })
+    .executeAsync(function(callback) {
+      hoodie.test123Store.remove().done(callback);
+    })
+    .then(function(object) {
+      expect(object.foo).to.equal('lalala');
+    })
 
     // cleanup
     .executeAsync(function(callback) {

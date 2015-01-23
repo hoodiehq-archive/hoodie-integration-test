@@ -45,7 +45,8 @@ module.exports = function(expect, hosts, options) {
           Authorization: 'Basic ' + btoa('admin:'+adminPassword)
         },
         contentType: 'application/json'
-      }).done(callback);
+      })
+      .done(callback);
     }, [testDb, options.adminPassword])
 
     // make sure we are not signed in
@@ -96,17 +97,17 @@ module.exports = function(expect, hosts, options) {
     .executeAsync(function(callback) {
       window.testDb.add('test', {nr: 1})
       .done(function(object){
-        // FIXME: object is wrong, see https://github.com/hoodiehq/hoodie.js/issues/361
-        // window.lastObjectId = object.id;
-        window.lastObjectId = object.id.split(/\//)[1];
+        window.lastObjectId = object.id;
       })
       .done(callback);
     })
     .then(function(object) {
-      // FIXME: blocked by https://github.com/hoodiehq/hoodie.js/issues/361
-      // expect(object.id).to.match(/^[a-z0-9]{7}$/);
-      // expect(object.type).to.equal('test');
-      // expect(object.nr).to.equal(1);
+      expect(object.id).to.match(/^[a-z0-9]{7}$/);
+      expect(object.type).to.equal('test');
+      expect(object.nr).to.equal(1);
+      expect(typeof object.createdAt).to.equal('string');
+      expect(object.createdAt).to.equal(object.updatedAt);
+      expect(typeof object.createdBy).to.equal('string');
     })
 
     // find object
@@ -129,27 +130,23 @@ module.exports = function(expect, hosts, options) {
     .executeAsync(function(callback) {
       window.testDb.update('test', window.lastObjectId, {nr: 2}).done(callback);
     })
-    .then(function(/*object*/) {
-      // FIXME: blocked by https://github.com/hoodiehq/hoodie.js/issues/361
-      // expect(object.nr).to.equal(2);
-      // expect(object.createdAt).to.be.below(object.updatedAt);
+    .then(function(object) {
+      expect(object.nr).to.equal(2);
+      expect(object.createdAt).to.be.below(object.updatedAt);
     })
 
     // remove object
     .executeAsync(function(callback) {
       window.testDb.remove('test', window.lastObjectId).done(callback);
     })
-    .then(function(/*object*/) {
-      // FIXME: blocked by https://github.com/hoodiehq/hoodie.js/issues/361
-      // expect(object.nr).to.equal(2);
-      // expect(parseInt(object._rev, 10)).to.equal(3);
+    .then(function(object) {
+      expect(object.nr).to.equal(2);
+      expect(parseInt(object._rev, 10)).to.equal(3);
     })
 
     // disconnect to check if event gets triggered correctly
-    .execute(function() {
-      // FIXME: disconnect does not return a promise right now
-      //        https://github.com/hoodiehq/hoodie.js/issues/363
-      window.testDb.disconnect();
+    .execute(function(callback) {
+      window.testDb.disconnect().done(callback);
     })
 
     //

@@ -29,43 +29,57 @@ module.exports = function(expect, hosts) {
     })
 
     // hoodie.task.start progresses with task object
-    // FIXME: currently blocked by https://github.com/hoodiehq/hoodie.js/issues/372#issuecomment-54980005
-    // .executeAsync(function(callback) {
-    //   hoodie.task.start('test', {nr: 1}).progress(callback);
-    // })
-    // .then(function(task) {
-    //   expect(task.type).to.equal('test');
-    // })
+    .executeAsync(function(callback) {
+      hoodie.task.start('test', {nr: 1}).progress(callback);
+    })
+    .then(function(task) {
+      expect(task.type).to.equal('test');
+    })
 
     // hoodie.task.start resolves with task object if it succeeds
     .executeAsync(function(callback) {
-      hoodie.task.start('test', {foo: 'bar1'}).done(callback);
+      hoodie.task.start('test', {foo: 'bar1'})
+      .done(callback)
+      .fail(function(error) {
+        throw error;
+      })
     })
     .then(function(task) {
       expect(task.foo).to.equal('bar1');
     })
     .executeAsync(function(callback) {
-      hoodie.task.start('test', {foo: 'bar2', fail: true}).fail(callback);
+      hoodie.task.start('test', {foo: 'bar2', fail: true})
+      .fail(function(error) {
+        // Because of some weirdness, but the error object
+        // turns into a string when passed directly
+        callback({
+          message: error.message,
+          name: error.name
+        });
+      });
     })
     .then(function(error) {
-      // FIXME https://github.com/hoodiehq/hoodie.js/issues/378
-      // expect(error.name).to.equal('TestError');
-      // expect(error.message).to.equal('Test failed errored intentionally.');
+      expect(error.name).to.equal('HoodieError');
+      expect(error.message).to.equal('Test failed errored intentionally.');
     })
 
     .execute(function() {
       return window.events;
     })
     .then(function(events) {
-      expect(events.length).to.equal(8);
+      expect(events.length).to.equal(12);
       expect(events[0].name).to.equal('start');
       expect(events[1].name).to.equal('change');
       expect(events[2].name).to.equal('success');
       expect(events[3].name).to.equal('change');
       expect(events[4].name).to.equal('start');
       expect(events[5].name).to.equal('change');
-      expect(events[6].name).to.equal('error');
+      expect(events[6].name).to.equal('success');
       expect(events[7].name).to.equal('change');
+      expect(events[8].name).to.equal('start');
+      expect(events[9].name).to.equal('change');
+      expect(events[10].name).to.equal('error');
+      expect(events[11].name).to.equal('change');
     })
 
     // cleanup

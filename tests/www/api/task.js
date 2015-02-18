@@ -3,7 +3,7 @@
 module.exports = function(expect, hosts) {
 
   return this.remote
-    .setExecuteAsyncTimeout(10000)
+    .setExecuteAsyncTimeout(20000)
 
     // start
     .get(hosts.www)

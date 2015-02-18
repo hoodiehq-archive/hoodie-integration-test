@@ -21,11 +21,6 @@ module.exports = function(expect, hosts/*, options*/) {
       .type(task3 + '\r')
     .end()
 
-    // .execute(function() {
-    //   $('body').css('background', '#d90');
-    // })
-    // .waitForConditionInBrowser('window.done === true', 1000000)
-
     // sign up
     .findByCssSelector('[data-hoodie-action=signup]')
       .click()

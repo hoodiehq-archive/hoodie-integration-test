@@ -18,9 +18,9 @@ module.exports = function(expect, hosts) {
     if (/index.js$/.test(path)) {
       return;
     }
-    if (/walktrough.js$/.test(path)) {
-      return;
-    }
+    // if (/walktrough.js$/.test(path)) {
+    //   return;
+    // }
     var name = path.split('/');
     name = name[name.length-1].replace('.js', '');
 

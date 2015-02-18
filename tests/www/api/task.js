@@ -8,6 +8,16 @@ module.exports = function(expect, hosts) {
     // start
     .get(hosts.www)
 
+    // not supported by Firefox it seams:
+    // .clearLocalStorage()
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      setTimeout(callback, 1000);
+    })
+
+    // start
+    .get(hosts.www)
+
     // prepare events tracking
     .execute(function() {
       window.events = [];

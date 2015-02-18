@@ -10,9 +10,20 @@ module.exports = function(expect, hosts/*, options*/) {
   var username = 'walktrough' + Date.now();
   var password = 'hoodiepassword';
   return this.remote
-    .get(hosts.www)
     .setExecuteAsyncTimeout(30000)
     .setFindTimeout(30000)
+
+    .get(hosts.www)
+
+    // not supported by Firefox it seams:
+    // .clearLocalStorage()
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      setTimeout(callback, 1000);
+    })
+
+    // start
+    .get(hosts.www)
 
     // add tasks
     .findByCssSelector('#todoinput')
@@ -242,10 +253,7 @@ module.exports = function(expect, hosts/*, options*/) {
       .click()
     .end()
 
-    // should.eventually doesn't stop the intern here, dunno why, it works
-    // the first time above.
     .waitForConditionInBrowser('hoodie.account.username === "'+username+'2"')
-
     .findByCssSelector('[data-hoodie-account-status=signedin] .hoodie-account-signedin')
       .getVisibleText()
       .should.eventually.match(new RegExp('Hello, ' + username + '2'))
@@ -275,5 +283,5 @@ module.exports = function(expect, hosts/*, options*/) {
     //       way to do that, please let me know ~@gr2m
     //
     //       I also tried .waitForDeletedByCssSelector('#todolist li'), didn't work.
-    .waitForConditionInBrowser('$("#todolist li").length === 0')
+    .waitForConditionInBrowser('$("#todolist li").length === 0');
 };

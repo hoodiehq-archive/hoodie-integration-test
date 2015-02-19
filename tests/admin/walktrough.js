@@ -3,7 +3,20 @@ module.exports = function(expect, hosts, options) {
 
     // start
     .get(hosts.admin)
+
+    // not supported by Firefox it seams:
+    // .clearLocalStorage()
+    .executeAsync(function(callback) {
+      localStorage.clear();
+      setTimeout(callback, 1000);
+    })
+
+    // start
+    .get(hosts.admin)
+
+    // start
     .setFindTimeout(10000)
+    .setExecuteAsyncTimeout(20000)
 
     // sign in
     .findByName('password')

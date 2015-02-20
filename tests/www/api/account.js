@@ -146,6 +146,8 @@ module.exports = function(expect, hosts) {
       expect(_username).to.equal(username);
     })
 
+    // TODO: add test for https://github.com/hoodiehq/hoodie.js/issues/413
+
     // simulate unauthenticated state
     .executeAsync(function(callback) {
       hoodie.account.on('error:unauthenticated', callback);

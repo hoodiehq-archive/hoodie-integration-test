@@ -65,6 +65,12 @@ module.exports = function(grunt) {
     },
 
     shell: {
+      options: {
+        execOptions: {
+          // https://www.npmjs.com/package/grunt-shell#execoptions
+          maxBuffer: 400*1024
+        }
+      },
       createApp: {
         command: './node_modules/.bin/hoodie new ' + appname
       },
@@ -124,7 +130,8 @@ module.exports = function(grunt) {
         }
 
         cp.exec('npm link ' + module, {
-          cwd: path.resolve(path.join(appname, depPath))
+          cwd: path.resolve(path.join(appname, depPath)),
+          maxBuffer: 400*1024
         }, function(err, stdout, stderr) {
           if (err) {
             console.log('execution error: ', err);

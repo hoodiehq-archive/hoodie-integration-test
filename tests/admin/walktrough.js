@@ -45,5 +45,5 @@ module.exports = function(expect, hosts, options) {
       .should.become('SIGN OUT')
       .click()
     .end()
-    .waitForConditionInBrowser('$("#content").data("state") === "signed-out"');
+    .waitForConditionInBrowser('$("#content").attr("data-state") === "signed-out"');
 };

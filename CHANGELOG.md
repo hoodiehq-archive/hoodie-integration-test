@@ -1,3 +1,12 @@
+<a name="1.0.4"></a>
+### 1.0.4 (2015-02-21)
+
+
+#### Bug Fixes
+
+* double maxBuffer to avoid fails on travis ((3b788a62))
+
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2014-10-22)
 

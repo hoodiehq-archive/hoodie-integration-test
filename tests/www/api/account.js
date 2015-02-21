@@ -22,7 +22,7 @@ module.exports = function(expect, hosts) {
 
     // preparations for events testing
     .execute(function() {
-      window.events = [];
+      window.accountEvents = [];
 
       [
         'signin',
@@ -37,7 +37,7 @@ module.exports = function(expect, hosts) {
         'error:passwordreset'
       ].forEach(function(eventName) {
         hoodie.account.on(eventName, function() {
-          window.events.push(eventName);
+          window.accountEvents.push(eventName);
         });
       });
     })
@@ -114,7 +114,7 @@ module.exports = function(expect, hosts) {
     })
 
     .execute(function() {
-      return window.events;
+      return window.accountEvents;
     })
     .then(function(events) {
       expect(events.length).to.equal(7);
@@ -129,7 +129,7 @@ module.exports = function(expect, hosts) {
 
     // reset events
     .execute(function() {
-      window.events = [];
+      window.accountEvents = [];
     })
 
     // test upgrade from anonymous account
@@ -158,11 +158,11 @@ module.exports = function(expect, hosts) {
     .execute(function() {
       // sometimes there is an extra `error:unauthenticated`
       // see https://github.com/hoodiehq/hoodie.js/issues/370
-      if (window.events.length === 3) {
-        window.events.splice(2, 1);
+      if (window.accountEvents.length === 3) {
+        window.accountEvents.splice(2, 1);
       }
 
-      return window.events;
+      return window.accountEvents;
     })
     .then(function(events) {
       expect(events.length).to.equal(2);
@@ -173,7 +173,7 @@ module.exports = function(expect, hosts) {
     // simulate unauthenticated state
     .executeAsync(function(username, password, callback) {
       hoodie.account.signIn(username, password).done(function() {
-        callback(window.events);
+        callback(window.accountEvents);
       });
     }, [username, password])
 

@@ -12,7 +12,7 @@ var exports = module.exports = function(cwd, module, callback) {
 };
 
 exports.getNpmList = function(cwd, callback) {
-  exec('npm ls --json', {
+  exec('npm ls --json --depth=3', {
     cwd: path.resolve(cwd) || process.cwd()
   }, function(err, stdout) {
     try {

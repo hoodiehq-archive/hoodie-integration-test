@@ -22,7 +22,7 @@ exports.dependenciesMap = {
   'hoodie-plugins-api': 'node_modules/hoodie-server/node_modules/hoodie-plugins-manager',
   'hoodie-plugin-appconfig': '.',
   'hoodie-plugin-email': '.',
-  'hoodie-plugin-user': '.'
+  'hoodie-plugin-users': '.'
 }
 
 exports.getNpmList = function(cwd, callback) {

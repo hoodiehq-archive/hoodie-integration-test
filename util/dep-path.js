@@ -11,6 +11,20 @@ var exports = module.exports = function(cwd, module, callback) {
   });
 };
 
+// workaround for https://github.com/hoodiehq/hoodie-integration-test/issues/19
+// map module names to paths where we have to run `npm link <moduleName>` in
+exports.dependenciesMap = {
+  'hoodie-server': '.',
+  'hoodie': 'node_modules/hoodie-server',
+  'hoodie-admin-dashboard': 'node_modules/hoodie-server',
+  'hoodie-admin-dashboard-uikit': 'node_modules/hoodie-server',
+  'hoodie-plugins-manager': 'node_modules/hoodie-server',
+  'hoodie-plugins-api': 'node_modules/hoodie-server/node_modules/hoodie-plugins-manager',
+  'hoodie-plugin-appconfig': '.',
+  'hoodie-plugin-email': '.',
+  'hoodie-plugin-user': '.'
+}
+
 exports.getNpmList = function(cwd, callback) {
   exec('npm ls --json --depth=3', {
     cwd: path.resolve(cwd) || process.cwd()

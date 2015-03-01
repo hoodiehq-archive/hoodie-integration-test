@@ -123,25 +123,46 @@ module.exports = function(grunt) {
 
     grunt.registerTask('deep-link', function() {
       var done = this.async();
-      depPath(appname, module, function(depPath) {
-        if (!depPath) {
-          grunt.log.warn('Dependencies do not contain the module ' + module);
-          return done();
-        }
+      var modulePath = depPath.dependenciesMap[module];
 
-        cp.exec('npm link ' + module, {
-          cwd: path.resolve(path.join(appname, depPath)),
-          maxBuffer: 400*1024
-        }, function(err, stdout, stderr) {
-          if (err) {
-            console.log('execution error: ', err);
-          }
-          console.log(stdout);
-          console.log(stderr);
-          grunt.task.run(tasksPost);
-          done();
-        });
+      if (!modulePath) {
+        grunt.log.warn('Dependencies do not contain the module ' + module);
+        return done();
+      }
+
+      cp.exec('npm link ' + module, {
+        cwd: path.resolve(path.join(appname, modulePath)),
+        maxBuffer: 400*1024
+      }, function(err, stdout, stderr) {
+        if (err) {
+          console.log('execution error: ', err);
+        }
+        console.log(stdout);
+        console.log(stderr);
+        grunt.task.run(tasksPost);
+        done();
       });
+
+      // see https://github.com/hoodiehq/hoodie-integration-test/issues/19
+      // depPath(appname, module, function(depPath) {
+      //   if (!depPath) {
+      //     grunt.log.warn('Dependencies do not contain the module ' + module);
+      //     return done();
+      //   }
+
+      //   cp.exec('npm link ' + module, {
+      //     cwd: path.resolve(path.join(appname, depPath)),
+      //     maxBuffer: 400*1024
+      //   }, function(err, stdout, stderr) {
+      //     if (err) {
+      //       console.log('execution error: ', err);
+      //     }
+      //     console.log(stdout);
+      //     console.log(stderr);
+      //     grunt.task.run(tasksPost);
+      //     done();
+      //   });
+      // });
     });
 
     grunt.task.run(tasksPre.concat(['deep-link']));

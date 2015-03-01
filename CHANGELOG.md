@@ -1,3 +1,12 @@
+<a name="1.0.7"></a>
+### 1.0.7 (2015-03-01)
+
+
+#### Bug Fixes
+
+* dependency map for deep linking for hoodie-plugin-users ((7a55454c))
+
+
 <a name="1.0.4"></a>
 ### 1.0.4 (2015-02-21)
 

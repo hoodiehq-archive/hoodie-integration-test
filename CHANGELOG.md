@@ -1,3 +1,13 @@
+<a name"1.0.8"></a>
+### 1.0.8 (2015-07-03)
+
+
+#### Bug Fixes
+
+* stringify error before passing to test callback (27a6aaa2)
+* **env:** manually add the test app to the paths that require looks up (cc178d5f)
+
+
 <a name="1.0.7"></a>
 ### 1.0.7 (2015-03-01)
 

@@ -56,18 +56,24 @@ module.exports = function(expect, hosts) {
 
     // hoodie.request('GET', '/_config') to fail with HoodieUnauthorizedError
     .executeAsync(function(callback) {
-      return hoodie.request('GET', '/_config').fail(callback);
+      return hoodie.request('GET', '/_config').fail(function(error) {
+        // note: error instance gets turned into an object
+        //       with same properties, so we stringify it
+        callback(error.toString())
+      });
     })
     .then(function(error) {
-      expect(error.toString()).to.match(/HoodieUnauthorizedError/);
+      expect(error).to.match(/HoodieUnauthorizedError/);
     })
 
     // hoodie.request('GET', 'http://fail/_config') to fail with HoodieConnectionError
     .executeAsync(function(callback) {
-      return hoodie.request('GET', 'http://fail/_config').fail(callback);
+      return hoodie.request('GET', 'http://fail/_config').fail(function(error) {
+        callback(error.toString())
+      });
     })
     .then(function(error) {
-      expect(error.toString()).to.match(/HoodieConnectionError/);
+      expect(error).to.match(/HoodieConnectionError/);
     })
 
     // hoodie.request('GET', '<path to CORS enabled endpoint') to resolve with response

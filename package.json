@@ -9,7 +9,7 @@
     "grunt-release-hoodie": "^2.8.0",
     "grunt-shell": "^0.7.0",
     "hoodie-cli": "latest",
-    "intern": "^2.0.1",
+    "intern": "^2.2.2",
     "load-grunt-tasks": "^0.6.0",
     "shelljs": "^0.3.0"
   },

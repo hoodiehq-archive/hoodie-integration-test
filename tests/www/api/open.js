@@ -120,10 +120,14 @@ module.exports = function(expect, hosts, options) {
 
     // find non-existing object
     .executeAsync(function(callback) {
-      window.testDb.find('test', 'unknownid').fail(callback);
+      window.testDb.find('test', 'unknownid').fail(function(error) {
+        // note: error instance gets turned into an object
+        //       with same properties, so we stringify it
+        callback(error.toString())
+      });
     })
     .then(function(error) {
-      expect(error.toString()).to.match(/HoodieNotFoundError/);
+      expect(error).to.match(/HoodieNotFoundError/);
     })
 
     // update object

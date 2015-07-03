@@ -44,11 +44,15 @@ module.exports = function(expect, hosts) {
 
     // signin to fail with invalid username
     .executeAsync(function(callback) {
-      return hoodie.account.signIn('foo', 'bar').fail(callback);
+      return hoodie.account.signIn('foo', 'bar').fail(function (error) {
+        // note: error instance gets turned into an object
+        //       with same properties, so we stringify it
+        callback(error.toString());
+      });
     })
     .then(function(error) {
-      expect(error.toString()).to.match(/^HoodieUnauthorizedError/);
-      expect(error.toString()).to.match(/Name or password is incorrect.$/);
+      expect(error).to.match(/^HoodieUnauthorizedError/);
+      expect(error).to.match(/Name or password is incorrect.$/);
     })
 
     // signup to resolve with new username

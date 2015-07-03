@@ -14,6 +14,8 @@ module.exports = function(grunt) {
 
   var env = process.env;
   env.HOODIE_SETUP_PASSWORD = '12345';
+  env.NODE_PATH = process.cwd() + '/myapp/node_modules/'
+
   var ports = require('./ports');
   var appname = 'myapp';
 
@@ -170,4 +172,3 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['rm-app', 'test']);
 };
-

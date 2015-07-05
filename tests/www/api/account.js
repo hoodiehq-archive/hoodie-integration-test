@@ -174,7 +174,6 @@ module.exports = function(expect, hosts) {
       expect(events[1]).to.equal('error:unauthenticated');
     })
 
-    // simulate unauthenticated state
     .executeAsync(function(username, password, callback) {
       hoodie.account.signIn(username, password).done(function() {
         callback(window.accountEvents);
